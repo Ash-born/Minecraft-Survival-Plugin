@@ -1,3 +1,9 @@
-name : Minecraft Survival Plugin
+name : Minecraft_Survival_Plugin
 main: fr.minecraft.survival.plugin.main.PluginMain
 version: 0.01
+commands:
+  points:
+    description: A command that make you see your own number of points
+  sethome:
+  delhome:
+  home:

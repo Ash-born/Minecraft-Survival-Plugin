@@ -1,53 +1,56 @@
 package fr.minecraft.survival.plugin.commands;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXMessageDialog;
 import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.XML;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class SetHome implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         Player p = (Player) commandSender;
         XML xml = new XML();
-        if (commandSender instanceof Player) {
-            if (s.equalsIgnoreCase("sethome")) {
-                if (strings.length == 0 || strings.length >= 2) {
-                    p.sendMessage(ChatColor.RED + " Erreur : Commande invalide . /sethome <nom_du_home>");
-                } if(strings.length == 1) {
-                    try {
+        if (!(commandSender instanceof Player)) {
 
-                        if (Integer.parseInt(xml.get_max_homes(p.getUniqueId().toString())) > Integer.parseInt(xml.get_home_cree(p.getUniqueId().toString()))) {
-                            PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + strings[0] + ".world", p.getLocation().getWorld().getName());
-                            PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + strings[0] + ".world", p.getLocation().getX());
-                            PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + strings[0] + ".world", p.getLocation().getY());
-                            PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + strings[0] + ".world", p.getLocation().getZ());
-                            PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + strings[0] + ".world", p.getEyeLocation().getPitch());
-                            PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + strings[0] + ".world", p.getEyeLocation().getYaw());
-                            PluginMain.getInstance().saveConfig();
-
-
-                            p.sendMessage(ChatColor.GREEN + "Le home " + strings[0] + " a été sauvegardé");
-                            xml.updateHomeCree(p.getUniqueId().toString(),(Integer.parseInt(xml.get_home_cree(p.getUniqueId().toString())) +  1 ) + "" );
-                            return false;
-                        } else {
-                            p.sendMessage(ChatColor.BOLD + "Limite de home atteinte ");
-                            return false;
-                        }
-                    }
-                    catch(Exception e ){
-
-                    }
-
-                    }
-                }
-
+            return false;
             }
 
+            if (args.length >= 1) {
+                try {
+                    String playerId = p.getUniqueId().toString();
+                    int maxHomes = Integer.parseInt(xml.get_max_homes(playerId));
+                    int playerHomes = Integer.parseInt(xml.get_home_cree(playerId));
+                    if ( maxHomes > playerHomes) {
+                        FileConfiguration config = PluginMain.getInstance().getConfig();
+                        String playerName = p.getName();
+                        Location playerLoc = p.getLocation();
+                        String home = args[0].toLowerCase();
+                        config.set("home." + playerName + "." + home + ".world", playerLoc.getWorld().getName());
+                        config.set("home." + playerName + "." + home + ".world", playerLoc.getX());
+                        config.set("home." + playerName + "." + home + ".world", playerLoc.getY());
+                        config.set("home." + playerName + "." + home + ".world", playerLoc.getZ());
+                        config.set("home." + playerName + "." + home + ".world", p.getEyeLocation().getPitch());
+                        config.set("home." + playerName + "." + home + ".world", p.getEyeLocation().getYaw());
+                        PluginMain.getInstance().saveConfig();
+
+                        p.sendMessage(ChatColor.GREEN + "Le home " + args[0] + " a été sauvegardé");
+                        xml.updateHomeCree(playerId,playerHomes + "");
+                    } else {
+                        p.sendMessage(ChatColor.BOLD + "Limite de home atteinte ");
+                    }
+                }
+                catch (Exception ignored){
+
+                }
+            }
+            else {
+                p.sendMessage(ChatColor.RED + " Erreur : Commande invalide . /sethome <nom_du_home>");
+            }
 
             return false;
         }

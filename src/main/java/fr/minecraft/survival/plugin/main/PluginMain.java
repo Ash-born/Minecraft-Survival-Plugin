@@ -25,7 +25,7 @@ public class PluginMain extends JavaPlugin  {
         getCommand("sethome").setExecutor(new SetHome());
         getCommand("home").setExecutor(new Home());
         getCommand("delhome").setExecutor(new DelHome());
-        instance= this;
+        instance = this;
 
     }
 

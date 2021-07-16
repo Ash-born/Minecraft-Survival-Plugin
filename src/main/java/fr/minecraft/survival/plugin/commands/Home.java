@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class Home implements CommandExecutor {
@@ -15,32 +16,35 @@ public class Home implements CommandExecutor {
 
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         Player p = (Player) commandSender;
-            if(commandSender instanceof Player){
-                if(s.equalsIgnoreCase("home")){
-                     if(strings.length == 0 || strings.length >= 2){
-                         p.sendMessage(ChatColor.RED + "Erreur : /home <nom_du_home>");
-                     }
-                    if(strings.length == 1){
-                         if(PluginMain.getInstance().getConfig().contains("home." + p.getName() +  "." + strings[0])){
-                            World w = Bukkit.getServer().getWorld(PluginMain.getInstance().getConfig().getString("home." + p.getName() +  "." + strings[0] +".world"));
-                            double x = PluginMain.getInstance().getConfig().getDouble("home." + p.getName() +  "." + strings[0] + ".x");
-                             double y = PluginMain.getInstance().getConfig().getDouble("home." + p.getName() +  "." + strings[0] + ".y");
-                             double z = PluginMain.getInstance().getConfig().getDouble("home." + p.getName() +  "." + strings[0] + ".z");
-                             double pitch = PluginMain.getInstance().getConfig().getDouble("home." + p.getName() +  "." + strings[0] + ".pitch");
-                             double yaw = PluginMain.getInstance().getConfig().getDouble("home." + p.getName() +  "." + strings[0] + ".yaw");
-                             p.teleport(new Location(w,x,y,z,(float)yaw,(float) pitch));
-                             p.sendMessage(ChatColor.GREEN + "Vous avez été teleporté a votre home  " + strings[0]);
-                         }
-                         else{
-                             p.sendMessage(ChatColor.RED + "Home "+ strings[0] +" Inexistant");
-                         }
-                        return false;
-                    }
+            if (!(commandSender instanceof Player)){
+                return false;
+            }
+
+            if (args.length >= 1){
+                FileConfiguration config = PluginMain.getInstance().getConfig();
+                String playerName = p.getName();
+                String home = args[0].toLowerCase();
+                if (config.contains("home." + playerName +  "." + home)){
+                    World w = Bukkit.getServer().getWorld(config.getString("home." + p.getName() +  "." + home + ".world"));
+
+                    double x = config.getDouble("home." + playerName +  "." + home + ".x");
+                    double y = config.getDouble("home." + playerName +  "." + home + ".y");
+                    double z = config.getDouble("home." + playerName +  "." + home + ".z");
+
+                    double pitch = config.getDouble("home." + playerName +  "." + home + ".pitch");
+                    double yaw = config.getDouble("home." + playerName +  "." + home + ".yaw");
+
+                    p.teleport(new Location(w, x, y, z,(float) yaw,(float) pitch));
+                    p.sendMessage(ChatColor.GREEN + "Vous avez été teleporté a votre home  " + home);
                 }
-
-
+                else{
+                    p.sendMessage(ChatColor.RED + "Home "+ home +" Inexistant");
+                }
+            }
+            else {
+                p.sendMessage(ChatColor.RED + "Erreur : /home <nom_du_home>");
             }
 
         return false;

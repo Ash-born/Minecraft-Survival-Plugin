@@ -31,11 +31,11 @@ public class SetHome implements CommandExecutor {
                         Location playerLoc = p.getLocation();
                         String home = args[0].toLowerCase();
                         config.set("home." + playerName + "." + home + ".world", playerLoc.getWorld().getName());
-                        config.set("home." + playerName + "." + home + ".world", playerLoc.getX());
-                        config.set("home." + playerName + "." + home + ".world", playerLoc.getY());
-                        config.set("home." + playerName + "." + home + ".world", playerLoc.getZ());
-                        config.set("home." + playerName + "." + home + ".world", p.getEyeLocation().getPitch());
-                        config.set("home." + playerName + "." + home + ".world", p.getEyeLocation().getYaw());
+                        config.set("home." + playerName + "." + home + ".x", playerLoc.getX());
+                        config.set("home." + playerName + "." + home + ".y", playerLoc.getY());
+                        config.set("home." + playerName + "." + home + ".z", playerLoc.getZ());
+                        config.set("home." + playerName + "." + home + ".pitch", p.getEyeLocation().getPitch());
+                        config.set("home." + playerName + "." + home + ".yaw", p.getEyeLocation().getYaw());
                         PluginMain.getInstance().saveConfig();
 
                         p.sendMessage(ChatColor.GREEN + "Le home " + args[0] + " a été sauvegardé");

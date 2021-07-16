@@ -23,26 +23,33 @@ public class SetHome implements CommandExecutor {
             if (args.length >= 1) {
                 try {
                     String playerId = p.getUniqueId().toString();
+                    FileConfiguration config = PluginMain.getInstance().getConfig();
+                    String home = args[0].toLowerCase();
+                    String playerName = p.getName();
                     int maxHomes = Integer.parseInt(xml.get_max_homes(playerId));
                     int playerHomes = Integer.parseInt(xml.get_home_cree(playerId));
                     if ( maxHomes > playerHomes) {
-                        FileConfiguration config = PluginMain.getInstance().getConfig();
-                        String playerName = p.getName();
-                        Location playerLoc = p.getLocation();
-                        String home = args[0].toLowerCase();
-                        config.set("home." + playerName + "." + home + ".world", playerLoc.getWorld().getName());
-                        config.set("home." + playerName + "." + home + ".x", playerLoc.getX());
-                        config.set("home." + playerName + "." + home + ".y", playerLoc.getY());
-                        config.set("home." + playerName + "." + home + ".z", playerLoc.getZ());
-                        config.set("home." + playerName + "." + home + ".pitch", p.getEyeLocation().getPitch());
-                        config.set("home." + playerName + "." + home + ".yaw", p.getEyeLocation().getYaw());
-                        PluginMain.getInstance().saveConfig();
+                        if(config.contains("home." + playerName + "." + home)){
+                            p.sendMessage(ChatColor.RED + "Un home du meme nom est deja existant");
+                            return false;
+                        } else {
+                            Location playerLoc = p.getLocation();
+                            config.set("home." + playerName + ".number" + playerHomes + ".homeName" , home);
+                            config.set("home." + playerName + "." + home + ".world", playerLoc.getWorld().getName());
+                            config.set("home." + playerName + "." + home + ".x", playerLoc.getX());
+                            config.set("home." + playerName + "." + home + ".y", playerLoc.getY());
+                            config.set("home." + playerName + "." + home + ".z", playerLoc.getZ());
+                            config.set("home." + playerName + "." + home + ".pitch", p.getEyeLocation().getPitch());
+                            config.set("home." + playerName + "." + home + ".yaw", p.getEyeLocation().getYaw());
+                            PluginMain.getInstance().saveConfig();
 
-                        p.sendMessage(ChatColor.GREEN + "Le home " + args[0] + " a été sauvegardé");
-                        xml.updateHomeCree(playerId,playerHomes + "");
+                            p.sendMessage(ChatColor.GREEN + "Le home " + args[0] + " a été sauvegardé");
+                            xml.updateHomeCree(playerId, (playerHomes + 1) + "");
+                        }
                     } else {
                         p.sendMessage(ChatColor.BOLD + "Limite de home atteinte ");
                     }
+
                 }
                 catch (Exception ignored){
 

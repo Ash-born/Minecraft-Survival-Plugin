@@ -4,6 +4,9 @@ version: 0.01
 commands:
   points:
     description: A command that make you see your own number of points
+
   sethome:
   delhome:
   home:
+  bet:
+    description: A command to bid during an ongoing auction.

@@ -27,7 +27,7 @@ public class DelHome implements CommandExecutor {
             if (PluginMain.getInstance().getConfig().contains("home." + p.getName() + "." + home)){
                 XML xml = new XML();
                 PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + home,null);
-                p.sendMessage(ChatColor.AQUA  + "Le home " + home + "a été supprimé");
+                p.sendMessage(ChatColor.AQUA  + "Le home  ' " + home + " '   a été supprimé");
 
                 try {
                     xml.updateHomeCree(p.getUniqueId().toString(),(Integer.parseInt(xml.get_home_cree(p.getUniqueId().toString())) -  1 ) + "" );
@@ -36,7 +36,7 @@ public class DelHome implements CommandExecutor {
                 }
             }
             else{
-                p.sendMessage(ChatColor.RED + "Erreur , l'home " + args[0] + "n'existe pas");
+                p.sendMessage(ChatColor.RED + "Erreur , l'home " + args[0] + " n'existe pas");
             }
         }
         else{

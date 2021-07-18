@@ -249,6 +249,56 @@ public class XML {
         writeXMLFile(document);
 
     }
+    public  void updatemaxHomes(String UUID, String Points) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+
+        //Read XML file.
+        File inputFile = new File(filePath);
+
+        //Create DocumentBuilderFactory object.
+        DocumentBuilderFactory dbFactory =
+                DocumentBuilderFactory.newInstance();
+
+        //Get DocumentBuilder object.
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+        //Parse XML file.
+        Document document = dBuilder.parse(inputFile);
+
+        //Get element by tag name.
+        NodeList players =
+                document.getElementsByTagName("Player");
+
+        for (int i = 0 ; i < document.getElementsByTagName("UUID").getLength() ; i ++){
+            if(document.getElementsByTagName("UUID").item(i).getTextContent().equals(UUID)){
+
+                // get first staff
+                Node player = players.item(i);
+                if (player.getNodeType() == Node.ELEMENT_NODE) {
+
+
+                    NodeList childNodes = player.getChildNodes();
+
+                    for (int j = 0; j < childNodes.getLength(); j++) {
+                        Node item = childNodes.item(j);
+                        if (item.getNodeType() == Node.ELEMENT_NODE) {
+
+                            System.out.println("Test 1");
+                            if ("max_Home".equalsIgnoreCase(item.getNodeName())) {
+                                System.out.println("Done");
+                                item.setTextContent(Points);
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+        }
+        writeXMLFile(document);
+
+    }
+
 
 
     public  void updateHomeCree(String UUID, String Points) throws ParserConfigurationException, IOException, SAXException, TransformerException {

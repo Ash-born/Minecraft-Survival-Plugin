@@ -31,9 +31,16 @@ public class Home implements CommandExecutor {
                 if(playerHomes != 0) {
                     p.sendMessage(ChatColor.AQUA + "Vous Avez " + playerHomes + " Homes  : ");
                     String s = "";
-                    for (int i = 0; i < playerHomes; i++) {
+                    for (int i = 0; i < maxHomes; i++) {
                         s = "home." + p.getName() + ".number" + i + ".homeName";
-                        p.sendMessage(ChatColor.YELLOW + "Home " + (i + 1) + "  : " + config.getString(s));
+                        if (config.getString(s) == null) {
+                            p.sendMessage(ChatColor.YELLOW + "Home " + (i + 1) + "  :  Home vide ");
+                        } else {
+                            p.sendMessage(ChatColor.YELLOW + "Home " + (i + 1) + "  : " + config.getString(s));
+                        }
+                    }
+                    if(playerHomes == 0) {
+                        p.sendMessage("Vous n'avez pas de home , vous pouvez en creer avec  /Sethome <nomDuHome>" );
                     }
                 }
                 if(!config.contains("home." + p.getName() )){

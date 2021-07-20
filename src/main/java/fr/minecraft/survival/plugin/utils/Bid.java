@@ -1,4 +1,4 @@
-package fr.minecraft.survival.plugin.commands;
+package fr.minecraft.survival.plugin.utils;
 
 import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.BidParty;

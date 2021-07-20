@@ -2,6 +2,7 @@ package fr.minecraft.survival.plugin.main;
 
 import fr.minecraft.survival.plugin.commands.*;
 import fr.minecraft.survival.plugin.events.onConnexion;
+import fr.minecraft.survival.plugin.utils.Bid;
 import fr.minecraft.survival.plugin.utils.XML;
 import org.bukkit.plugin.java.JavaPlugin;
 

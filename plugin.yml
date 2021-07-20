@@ -10,3 +10,5 @@ commands:
   home:
   bet:
     description: A command to bid during an ongoing auction.
+  vanish:
+    description: A command that vanish a specific player.

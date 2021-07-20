@@ -18,19 +18,27 @@ public class Bid {
     Server server = Bukkit.getServer();
     BukkitScheduler scheduler = server.getScheduler();
 
-    // BidTime in seconds
-    int bidTime = 30;
+    // BID_TIME in minutes
+    int BID_TIME = 5;
 
-    public Bid()
-    {
+    // BID_DELAY_TIME in minutes
+    int BID_DELAY_TIME = 60;
+
+    // Minimum players required to start auction
+    int MIN_PLAYERS = 2;
+
+    public Bid() {
         random = new Random();
-        scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), this::startBidParty, 0L, (long) bidTime * 2 * 20);
+        scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), this::startBidParty, 0L, (long) BID_DELAY_TIME * 60 * 20);
     }
 
-    public void startBidParty()
-    {
-        /*if (Bukkit.getOnlinePlayers().size() < 2)
-            return;*/
+    public static BidParty getCurrentBidParty() {
+        return currentBidParty;
+    }
+
+    public void startBidParty() {
+        if (Bukkit.getOnlinePlayers().size() < MIN_PLAYERS)
+            return;
 
         ItemStack bidItem = randomItem();
         // Can't do better code to get name for item than this :(
@@ -47,22 +55,16 @@ public class Bid {
                 winner.getServer().broadcastMessage(ChatColor.AQUA + "Le joueur " + winner.getDisplayName() + " a gagné l'enchère !\nIl remporte donc l'item " + bidItemName + " au prix de " + price + " points !");
                 winner.getInventory().addItem(bidItem);
                 winner.sendMessage(ChatColor.GREEN + "" + ChatColor.ITALIC + "Tu as remporté l'item " + bidItemName + " ! GG!");
-            }
-            else {
+            } else {
                 server.broadcastMessage(ChatColor.AQUA + "Personne n'a remporté l'enchère !");
             }
 
             currentBidParty.endBid();
-        }, bidTime * 20L);
+        }, BID_TIME * 60 * 20L);
     }
 
-    public ItemStack randomItem()
-    {
+    public ItemStack randomItem() {
         Material randomMaterial = Material.values()[random.nextInt(Material.values().length)];
         return new ItemStack(randomMaterial);
-    }
-
-    public static BidParty getCurrentBidParty() {
-        return currentBidParty;
     }
 }

@@ -2,10 +2,10 @@ package fr.minecraft.survival.plugin.main;
 
 import fr.minecraft.survival.plugin.commands.*;
 import fr.minecraft.survival.plugin.events.onConnexion;
-import fr.minecraft.survival.plugin.utils.*;
+import fr.minecraft.survival.plugin.utils.XML;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PluginMain extends JavaPlugin  {
+public class PluginMain extends JavaPlugin {
     public static PluginMain instance;
     public static XML xml = new XML();
 
@@ -15,7 +15,7 @@ public class PluginMain extends JavaPlugin  {
 
     @Override
     public void onEnable() {
-        XML.create_xml(null,null);
+        XML.create_xml(null, null);
 
         getLogger().info("onEnable has been invoked!");
         getServer().getPluginManager().registerEvents(new onConnexion(), this);
@@ -25,6 +25,7 @@ public class PluginMain extends JavaPlugin  {
         getCommand("home").setExecutor(new Home());
         getCommand("delhome").setExecutor(new DelHome());
         getCommand("bet").setExecutor(new Bet());
+        getCommand("vanish").setExecutor(new Vanish());
 
         instance = this;
         new Bid();

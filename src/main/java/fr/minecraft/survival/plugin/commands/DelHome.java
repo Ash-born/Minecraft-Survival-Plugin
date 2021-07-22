@@ -28,9 +28,12 @@ public class DelHome implements CommandExecutor {
                 XML xml = new XML();
                 PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + home,null);
                 p.sendMessage(ChatColor.AQUA  + "Le home  ' " + home + " '   a été supprimé");
+                int test =  PluginMain.getInstance().getConfig().getInt("homecree." + p.getDisplayName());
 
                 try {
-                    xml.updateHomeCree(p.getUniqueId().toString(),(Integer.parseInt(xml.get_home_cree(p.getUniqueId().toString())) -  1 ) + "" );
+
+                    PluginMain.getInstance().getConfig().set("homecree." + p.getDisplayName() , test - 1 );
+                    PluginMain.getInstance().saveConfig();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

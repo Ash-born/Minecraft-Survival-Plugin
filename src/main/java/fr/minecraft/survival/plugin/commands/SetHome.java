@@ -22,12 +22,12 @@ public class SetHome implements CommandExecutor {
 
             if (args.length >= 1) {
                 try {
-                    String playerId = p.getUniqueId().toString();
+
                     FileConfiguration config = PluginMain.getInstance().getConfig();
                     String home = args[0].toLowerCase();
                     String playerName = p.getName();
-                    int maxHomes = Integer.parseInt(xml.get_max_homes(playerId));
-                    int playerHomes = Integer.parseInt(xml.get_home_cree(playerId));
+                    int maxHomes = config.getInt("maxhome." + p.getDisplayName());
+                    int playerHomes = config.getInt("homecree." + p.getDisplayName());
                     if ( maxHomes > playerHomes) {
                         if(config.contains("home." + playerName + "." + home)){
                             p.sendMessage(ChatColor.RED + "Un home du meme nom est deja existant");
@@ -41,10 +41,11 @@ public class SetHome implements CommandExecutor {
                             config.set("home." + playerName + "." + home + ".z", playerLoc.getZ());
                             config.set("home." + playerName + "." + home + ".pitch", p.getEyeLocation().getPitch());
                             config.set("home." + playerName + "." + home + ".yaw", p.getEyeLocation().getYaw());
+                            config.set("homecree." + p.getDisplayName(),playerHomes + 1);
                             PluginMain.getInstance().saveConfig();
 
                             p.sendMessage(ChatColor.GREEN + "Le home " + args[0] + " a été sauvegardé");
-                            xml.updateHomeCree(playerId, (playerHomes + 1) + "");
+
                         }
                     } else {
                         p.sendMessage(ChatColor.BOLD + "Limite de home atteinte ");

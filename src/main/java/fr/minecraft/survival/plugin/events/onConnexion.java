@@ -15,9 +15,7 @@ public class onConnexion implements Listener {
     FileConfiguration config = PluginMain.getInstance().getConfig();
     @EventHandler
     public   void onPlayerJoin(PlayerJoinEvent event) throws Exception {
-        xml.addPlayer(new File(".\\config.xml"),event.getPlayer().getUniqueId().toString());
-        event.getPlayer().sendMessage("Vous  aviez " + xml.get_points(event.getPlayer().getUniqueId().toString()) + " Points" +  ChatColor.AQUA);
-        if( ! config.contains("diamondMined." + event.getPlayer().getDisplayName() ) && !config.contains("ancientDebritMined." + event.getPlayer().getDisplayName()) ){
+            if( ! config.contains("diamondMined." + event.getPlayer().getDisplayName() ) && !config.contains("ancientDebritMined." + event.getPlayer().getDisplayName()) ){
             config.set("diamondMined." + event.getPlayer().getDisplayName()  +".diamondMined" , 0);
             config.set("diamondMined." + event.getPlayer().getDisplayName()  +".stoneMined" , 0);
             config.set("diamondMined." + event.getPlayer().getDisplayName()  +".ratio" , 0);
@@ -26,6 +24,14 @@ public class onConnexion implements Listener {
             config.set("ancientDebritMined." + event.getPlayer().getDisplayName()  +".ratio" , 0);
 
             PluginMain.getInstance().saveConfig();
+        }
+        if(!config.contains("points." + event.getPlayer().getDisplayName())){
+            config.set("points." + event.getPlayer().getDisplayName() ,0.0);
+            config.set("maxhome." + event.getPlayer().getDisplayName(),2);
+            config.set("homecree." + event.getPlayer().getDisplayName(),0);
+            PluginMain.getInstance().saveConfig();
+        }else{
+            event.getPlayer().sendMessage(ChatColor.AQUA + "Vous avez  " +  config.getDouble("points." + event.getPlayer().getDisplayName())  + " Points ");
         }
 
     }

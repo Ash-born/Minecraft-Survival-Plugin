@@ -12,3 +12,5 @@ commands:
   bet:
     description: A command to bid during an ongoing auction.
   ratio:
+  trade:
+  vanish:

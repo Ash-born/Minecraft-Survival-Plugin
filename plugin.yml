@@ -1,11 +1,14 @@
 name : Minecraft_Survival_Plugin
 main: fr.minecraft.survival.plugin.main.PluginMain
 version: 0.01
-api-version: 1.13
+api-version: 1.16
 commands:
   points:
     description: A command that make you see your own number of points
+
   sethome:
   delhome:
   home:
-  trade:
+  bet:
+    description: A command to bid during an ongoing auction.
+  ratio:

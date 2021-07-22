@@ -28,6 +28,7 @@ public class Vanish implements CommandExecutor {
                 if (!vanished.contains(p)) {
                     for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
                         pl.hidePlayer(p);
+                        pl.sendMessage(ChatColor.YELLOW  +  p.getDisplayName() + " left the game");
                     }
                     p.setGameMode(GameMode.SPECTATOR);
                     vanished.add(p);
@@ -38,8 +39,9 @@ public class Vanish implements CommandExecutor {
                 } else {
                     for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
                         pl.showPlayer(p);
+                        pl.sendMessage(ChatColor.YELLOW  +  p.getDisplayName() + " joined the game");
                     }
-                    p.setGameMode(GameMode.SURVIVAL);
+                    p.setGameMode(GameMode.CREATIVE);
                     vanished.remove(p);
                     p.setAllowFlight(false);
                     p.sendMessage(ChatColor.GREEN + "Vous n'etes plus en vanish");

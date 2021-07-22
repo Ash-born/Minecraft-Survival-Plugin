@@ -1,4 +1,4 @@
-name : Minecraft_Survival_Plugin
+name: Minecraft_Survival_Plugin
 main: fr.minecraft.survival.plugin.main.PluginMain
 version: 0.01
 api-version: 1.16
@@ -13,3 +13,5 @@ commands:
   vanish:
     description: A command that vanish a specific player.
   trade:
+  pay:
+    description: A command to give points to another player.

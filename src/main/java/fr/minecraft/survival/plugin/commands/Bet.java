@@ -4,6 +4,7 @@ import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.Bid;
 import fr.minecraft.survival.plugin.utils.BidParty;
 import fr.minecraft.survival.plugin.utils.XML;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class Bet implements CommandExecutor {
 
         Player player = (Player) commandSender;
         BidParty bidParty = Bid.getCurrentBidParty();
-        if (bidParty.hasFinished) {
+        if (bidParty == null || bidParty.hasFinished) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.ITALIC + "Aucune enchère n'est en cours actuellement, réessayez plus tard !");
             return false;
         }
@@ -33,15 +34,13 @@ public class Bet implements CommandExecutor {
             return false;
         }
 
-        if (args.length >= 1)
-        {
+        if (args.length >= 1) {
             String playerId = player.getUniqueId().toString();
 
             int playerBidPrice = bidParty.getBidPrice(player);
             int playerPoints = Integer.parseInt(xml.get_points(playerId));
 
-            if (bidPrice > playerBidPrice && bidPrice <= playerPoints)
-            {
+            if (bidPrice > playerBidPrice && bidPrice <= playerPoints) {
                 int pointsUpdate = playerPoints + playerBidPrice - bidPrice;
                 bidParty.setBid(player, bidPrice);
 
@@ -52,11 +51,9 @@ public class Bet implements CommandExecutor {
                 }
 
                 player.sendMessage(ChatColor.GREEN + "Votre demande a bien été enregistré !");
-            }
-            else if (bidPrice > playerPoints) {
+            } else if (bidPrice > playerPoints) {
                 player.sendMessage(ChatColor.RED + "" + ChatColor.ITALIC + "Vous n'avez pas assez d'argent pour enchérir !");
-            }
-            else {
+            } else {
                 player.sendMessage(ChatColor.RED + "" + ChatColor.ITALIC + "Votre montant est inférieur à votre dernière demande !");
             }
         }

@@ -66,7 +66,7 @@ public class BidParty {
 
     public Integer getBidPrice(Player bidder)
     {
-        if (!bidders.keySet().isEmpty()) {
+        if (!bidders.keySet().isEmpty() && bidders.containsKey(bidder)) {
             return bidders.get(bidder);
         }
 

@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PluginMain extends JavaPlugin  {
     public  static PluginMain instance;
+    public static XML xml = new XML();
 
     public static PluginMain getInstance() {
         return instance;
@@ -30,6 +31,7 @@ public class PluginMain extends JavaPlugin  {
         getCommand("bet").setExecutor(new Bet());
         getCommand("vanish").setExecutor(new Vanish());
         getCommand("trade").setExecutor(new Trade());
+        getCommand("pay").setExecutor(new Pay());
 
         instance = this;
         new Bid();

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="Minecraft-Survival-Plugin:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Minecraft_Survival_Plugin_jar</output-path>
+    <output-path>$PROJECT_DIR$/../Minecraft_Spigot_Server/plugins</output-path>
     <root id="archive" name="Minecraft-Survival-Plugin.jar">
       <element id="module-output" name="Minecraft-Survival-Plugin" />
       <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />

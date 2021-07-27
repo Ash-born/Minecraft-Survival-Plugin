@@ -1,17 +1,24 @@
 name : Minecraft_Survival_Plugin
 main: fr.minecraft.survival.plugin.main.PluginMain
 version: 0.01
-api-version: 1.16
+api-version: 1.13
 commands:
   points:
     description: A command that make you see your own number of points
-
   sethome:
   delhome:
   home:
   bet:
     description: A command to bid during an ongoing auction.
+  vanish:
+    description: A command that vanish a specific player.
+  bet:
+    description: A command to bid during an ongoing auction.
   ratio:
   trade:
+  pay:
+    description: A command to give points to another player.
+  auction:
+    description: A command that gives you more informations about an ongoing auction.
   vanish:
   freeze:

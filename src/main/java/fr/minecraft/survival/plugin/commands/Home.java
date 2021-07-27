@@ -29,7 +29,7 @@ public class Home implements CommandExecutor {
         int playerHomes = Integer.parseInt(xml.get_home_cree(playerId));
             if(args.length == 0){
                 if(playerHomes != 0) {
-                    p.sendMessage(ChatColor.AQUA + "Vous Aviez " + playerHomes + " Homes  : ");
+                    p.sendMessage(ChatColor.AQUA + "Vous Avez " + playerHomes + " Homes  : ");
                     String s = "";
                     for (int i = 0; i < maxHomes; i++) {
                         s = "home." + p.getName() + ".number" + i + ".homeName";

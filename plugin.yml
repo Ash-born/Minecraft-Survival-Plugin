@@ -24,3 +24,5 @@ commands:
   vanish:
   freeze:
   stats:
+  claim:
+  unclaim:

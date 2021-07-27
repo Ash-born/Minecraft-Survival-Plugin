@@ -1,6 +1,7 @@
 package fr.minecraft.survival.plugin.commands;
 
 import fr.minecraft.survival.plugin.main.PluginMain;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,9 +20,9 @@ public class Stats implements CommandExecutor {
         int homecree = config.getInt("homecree." + name);
         int maxClaim = config.getInt("maxclaim." + name);
         int claimcree = config.getInt("claimcree." + name);
-        p.sendMessage("Vous avez actuellement  " + Points + " Points");
-        p.sendMessage("Vous avez actuellement   " + homecree + "/" + maxHome + " Home  Cree");
-        p.sendMessage("Vous avez actuellement   " + claimcree + "/" + maxClaim + " Claim  Cree");
+        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement  " + Points + " Points");
+        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement   " + homecree + "/" + maxHome  + " Home  Cree");
+        p.sendMessage( ChatColor.YELLOW +"Vous avez actuellement   " + claimcree + "/" + maxClaim  + " Claim  Cree");
 
         return false;
     }

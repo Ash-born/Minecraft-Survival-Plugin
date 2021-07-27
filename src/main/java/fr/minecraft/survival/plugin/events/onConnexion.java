@@ -8,17 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.io.File;
-
 public class onConnexion implements Listener {
     XML xml = new XML();
     FileConfiguration config = PluginMain.getInstance().getConfig();
 
     @EventHandler
     public   void onPlayerJoin(PlayerJoinEvent event) throws Exception {
-        xml.addPlayer(new File(".\\config.xml"),event.getPlayer().getUniqueId().toString());
-        event.getPlayer().sendMessage("Vous  aviez " + xml.get_points(event.getPlayer().getUniqueId().toString()) + " Points" +  ChatColor.AQUA);
-        if(!config.contains("diamondMined." + event.getPlayer().getDisplayName() ) && !config.contains("ancientDebritMined." + event.getPlayer().getDisplayName()) ){
+            if( ! config.contains("diamondMined." + event.getPlayer().getDisplayName() ) && !config.contains("ancientDebritMined." + event.getPlayer().getDisplayName()) ){
             config.set("diamondMined." + event.getPlayer().getDisplayName()  +".diamondMined" , 0);
             config.set("diamondMined." + event.getPlayer().getDisplayName()  +".stoneMined" , 0);
             config.set("diamondMined." + event.getPlayer().getDisplayName()  +".ratio" , 0);
@@ -28,5 +24,17 @@ public class onConnexion implements Listener {
 
             PluginMain.getInstance().saveConfig();
         }
+        if(!config.contains("points." + event.getPlayer().getDisplayName())){
+            config.set("points." + event.getPlayer().getDisplayName() ,0.0);
+            config.set("maxhome." + event.getPlayer().getDisplayName(),2);
+            config.set("homecree." + event.getPlayer().getDisplayName(),0);
+            config.set("maxclaim." + event.getPlayer().getDisplayName(),1);
+            config.set("claimcree." + event.getPlayer().getDisplayName(),0);
+
+            PluginMain.getInstance().saveConfig();
+        }else{
+            event.getPlayer().sendMessage(ChatColor.AQUA + "Vous avez  " +  config.getDouble("points." + event.getPlayer().getDisplayName())  + " Points ");
+        }
+
     }
 }

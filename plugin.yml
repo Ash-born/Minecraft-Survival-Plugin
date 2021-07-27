@@ -10,6 +10,7 @@ commands:
   home:
   bet:
     description: A command to bid during an ongoing auction.
+  ratio:
   vanish:
     description: A command that vanish a specific player.
   trade:

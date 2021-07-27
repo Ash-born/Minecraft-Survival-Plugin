@@ -7,42 +7,35 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 
 public class DelHome implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         Player p = (Player) commandSender;
-        if (!(commandSender instanceof Player)){
+        if (!(commandSender instanceof Player)) {
             return false;
         }
 
-        if (args.length >= 1){
+        if (args.length >= 1) {
             String home = args[0].toLowerCase();
-            if (PluginMain.getInstance().getConfig().contains("home." + p.getName() + "." + home)){
+            if (PluginMain.getInstance().getConfig().contains("home." + p.getName() + "." + home)) {
                 XML xml = new XML();
-                PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + home,null);
-                p.sendMessage(ChatColor.AQUA  + "Le home  ' " + home + " '   a été supprimé");
-                int test =  PluginMain.getInstance().getConfig().getInt("homecree." + p.getDisplayName());
+                PluginMain.getInstance().getConfig().set("home." + p.getName() + "." + home, null);
+                p.sendMessage(ChatColor.AQUA + "Le home  ' " + home + " '   a été supprimé");
+                int test = PluginMain.getInstance().getConfig().getInt("homecree." + p.getDisplayName());
 
                 try {
 
-                    PluginMain.getInstance().getConfig().set("homecree." + p.getDisplayName() , test - 1 );
+                    PluginMain.getInstance().getConfig().set("homecree." + p.getDisplayName(), test - 1);
                     PluginMain.getInstance().saveConfig();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-            else{
+            } else {
                 p.sendMessage(ChatColor.RED + "Erreur , l'home " + args[0] + " n'existe pas");
             }
-        }
-        else{
+        } else {
             p.sendMessage(ChatColor.RED + "Erreur : /delhome <nom_du_home>");
         }
 

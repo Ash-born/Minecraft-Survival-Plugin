@@ -46,19 +46,25 @@ public class Bid {
 
         ItemStack bidItem = randomItem();
         // Can't do better code to get name for item than this :(
-        String bidItemName = bidItem.getItemMeta().hasDisplayName() ? bidItem.getItemMeta().getDisplayName() : bidItem.getType().name().replace("_", " ");
+        String bidItemName = bidItem.getItemMeta().hasDisplayName() ? bidItem.getItemMeta().getDisplayName()
+                : bidItem.getType().name().replace("_", " ");
 
         currentBidParty.startBid(bidItem, bidTimer);
-        server.broadcastMessage(ChatColor.DARK_PURPLE + bidItemName + " en enchère !\nEnchérissez avec la commande /bet <montant> !");
+        server.broadcastMessage(
+                ChatColor.DARK_PURPLE + bidItemName + " en enchère !\nEnchérissez avec la commande /bet <montant> !");
 
         scheduler.scheduleSyncDelayedTask(PluginMain.getInstance(), () -> {
             Player winner = currentBidParty.getBestBidder();
             double price = currentBidParty.getBestBidPrice();
 
             if (winner != null) {
-                winner.getServer().broadcastMessage(ChatColor.AQUA + "Le joueur " + winner.getDisplayName() + " a gagné l'enchère !\nIl remporte donc l'item " + bidItemName + " au prix de " + price + " points !");
+                winner.getServer()
+                        .broadcastMessage(ChatColor.AQUA + "Le joueur " + winner.getDisplayName()
+                                + " a gagné l'enchère !\nIl remporte donc l'item " + bidItemName + " au prix de "
+                                + price + " points !");
                 winner.getInventory().addItem(bidItem);
-                winner.sendMessage(ChatColor.GREEN + "" + ChatColor.ITALIC + "Tu as remporté l'item " + bidItemName + " ! GG!");
+                winner.sendMessage(
+                        ChatColor.GREEN + "" + ChatColor.ITALIC + "Tu as remporté l'item " + bidItemName + " ! GG!");
                 currentBidParty.giveMoneyBack();
             } else {
                 server.broadcastMessage(ChatColor.AQUA + "Personne n'a remporté l'enchère !");

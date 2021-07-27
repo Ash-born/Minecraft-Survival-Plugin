@@ -9,13 +9,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
-public class PluginMain extends JavaPlugin  {
-    public  static PluginMain instance;
+public class PluginMain extends JavaPlugin {
+    public static PluginMain instance;
 
     public static PluginMain getInstance() {
         return instance;
     }
-    public HashMap<Player, Location> frozenPlayers = new HashMap<Player, Location>();
+
+    public static HashMap<Player, Location> frozenPlayers = new HashMap<Player, Location>();
 
     @Override
     public void onEnable() {
@@ -39,12 +40,9 @@ public class PluginMain extends JavaPlugin  {
         getCommand("auction").setExecutor(new Auction());
         getCommand("stats").setExecutor(new Stats());
 
-
         new Bid();
         getCommand("vanish").setExecutor(new Vanish());
         getCommand("freeze").setExecutor(new Freeze());
-
-
 
     }
 

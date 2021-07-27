@@ -15,13 +15,17 @@ public class PluginMain extends JavaPlugin  {
     public static PluginMain getInstance() {
         return instance;
     }
-    public HashMap<Player, Location> frozenPlayers = new HashMap<Player, Location>();
+    public HashMap<Player, Location> frozenPlayers = new HashMap<>();
+    public static  HashMap<String,String>chunks =  new HashMap<>();
 
     @Override
     public void onEnable() {
         instance = this;
+
         getLogger().info("onEnable has been invoked!");
+
         getServer().getPluginManager().registerEvents(new onConnexion(), this);
+        getServer().getPluginManager().registerEvents(new onInteractWithClaimedChunk(), this);
         getServer().getPluginManager().registerEvents(new onTradeInvClick(), this);
 
         getServer().getPluginManager().registerEvents(new onBlockMined(), this);
@@ -38,6 +42,8 @@ public class PluginMain extends JavaPlugin  {
         getCommand("pay").setExecutor(new Pay());
         getCommand("auction").setExecutor(new Auction());
         getCommand("stats").setExecutor(new Stats());
+        getCommand("claim").setExecutor(new Claim());
+        getCommand("unclaim").setExecutor(new Unclaim());
 
 
         new Bid();

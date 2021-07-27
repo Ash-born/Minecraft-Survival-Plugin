@@ -25,7 +25,7 @@ public class Pay implements CommandExecutor {
             sender.sendMessage(ChatColor.DARK_RED + "Tu ne peux pas envoyer de l'argent à toi-même !");
 
         } else {
-            XML xml = PluginMain.xml;
+            XML xml = new XML();
             int pts;
             try {
                 pts = Integer.parseInt(args[1]);

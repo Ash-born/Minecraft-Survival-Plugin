@@ -1,5 +1,6 @@
 package fr.minecraft.survival.plugin.events;
 
+import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.*;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;

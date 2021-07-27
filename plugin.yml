@@ -15,3 +15,5 @@ commands:
   trade:
   pay:
     description: A command to give points to another player.
+  auction:
+    description: A command that gives you more informations about an ongoing auction.

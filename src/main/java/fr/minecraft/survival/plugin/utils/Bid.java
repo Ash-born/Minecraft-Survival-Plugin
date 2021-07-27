@@ -1,7 +1,6 @@
 package fr.minecraft.survival.plugin.utils;
 
-import fr.minecraft.survival.plugin.main.PluginMain;
-import fr.minecraft.survival.plugin.utils.BidParty;
+import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,7 +8,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
-import java.util.Random;
+import fr.minecraft.survival.plugin.main.PluginMain;
 
 public class Bid {
     static BidParty currentBidParty = new BidParty();
@@ -25,11 +24,12 @@ public class Bid {
     int BID_DELAY_TIME = 60;
 
     // Minimum players required to start auction
-    int MIN_PLAYERS = 2;
+    int MIN_PLAYERS = 1;
 
     public Bid() {
         random = new Random();
         scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), this::startBidParty, 0L, (long) BID_DELAY_TIME * 60 * 20);
+        startBidParty();
     }
 
     public static BidParty getCurrentBidParty() {
@@ -40,11 +40,15 @@ public class Bid {
         if (Bukkit.getOnlinePlayers().size() < MIN_PLAYERS)
             return;
 
+        // Every one second, we run this task
+        BidTimer bidTimer = new BidTimer(BID_TIME * 60);
+        bidTimer.runTaskTimerAsynchronously(PluginMain.getInstance(), 0, 1 * 20);
+
         ItemStack bidItem = randomItem();
         // Can't do better code to get name for item than this :(
         String bidItemName = bidItem.getItemMeta().hasDisplayName() ? bidItem.getItemMeta().getDisplayName() : bidItem.getType().name().replace("_", " ");
 
-        currentBidParty.startBid(bidItem);
+        currentBidParty.startBid(bidItem, bidTimer);
         server.broadcastMessage(ChatColor.DARK_PURPLE + bidItemName + " en enchère !\nEnchérissez avec la commande /bet <montant> !");
 
         scheduler.scheduleSyncDelayedTask(PluginMain.getInstance(), () -> {
@@ -60,7 +64,7 @@ public class Bid {
             }
 
             currentBidParty.endBid();
-        }, BID_TIME * 60 * 20L);
+        }, BID_TIME * 60 * 20);
     }
 
     public ItemStack randomItem() {

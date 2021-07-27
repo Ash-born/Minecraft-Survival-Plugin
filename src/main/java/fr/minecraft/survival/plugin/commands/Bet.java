@@ -4,7 +4,6 @@ import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.Bid;
 import fr.minecraft.survival.plugin.utils.BidParty;
 import fr.minecraft.survival.plugin.utils.XML;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

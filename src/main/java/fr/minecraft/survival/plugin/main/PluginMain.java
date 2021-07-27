@@ -32,6 +32,7 @@ public class PluginMain extends JavaPlugin  {
         getCommand("vanish").setExecutor(new Vanish());
         getCommand("trade").setExecutor(new Trade());
         getCommand("pay").setExecutor(new Pay());
+        getCommand("auction").setExecutor(new Auction());
 
         instance = this;
         new Bid();

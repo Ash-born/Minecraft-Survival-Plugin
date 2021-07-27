@@ -10,6 +10,7 @@ import java.util.Objects;
 public class BidParty {
     ItemStack bidItem;
     HashMap<Player, Integer> bidders;
+    BidTimer timer;
     public boolean hasFinished = true;
 
     public BidParty()
@@ -17,10 +18,11 @@ public class BidParty {
         bidders = new HashMap<>();
     }
 
-    public void startBid(ItemStack item)
+    public void startBid(ItemStack item, BidTimer timer)
     {
         bidItem = item;
         hasFinished = false;
+        this.timer = timer;
     }
 
     public void endBid()
@@ -28,6 +30,7 @@ public class BidParty {
         hasFinished = true;
         bidders.clear();
         bidItem = null;
+        timer = null;
     }
 
     public void setBid(Player bidder, int bidValue)
@@ -71,5 +74,9 @@ public class BidParty {
         }
 
         return 0;
+    }
+
+    public Integer getTimeLeft() {
+        return timer.getTimeLeft();
     }
 }

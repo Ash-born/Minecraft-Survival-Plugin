@@ -27,7 +27,7 @@ public class Auction implements CommandExecutor {
         int seconds = bidParty.getTimeLeft();
         String time = DurationFormatUtils.formatDuration(seconds * 1000, "mm:ss");
         player.sendMessage(ChatColor.ITALIC + "" + ChatColor.BLUE + "Temps restant pour l'enchère : " + time);
-        player.sendMessage("Le plus haut prix enchéri : " + bidParty.getBestBidPrice());
+        player.sendMessage(ChatColor.ITALIC + "" + ChatColor.DARK_GREEN + "Top bid price : " + bidParty.getBestBidPrice());
 
         return true;
     }

@@ -24,11 +24,11 @@ public class Bid {
     int BID_DELAY_TIME = 60;
 
     // Minimum players required to start auction
-    int MIN_PLAYERS = 1;
+    int MIN_PLAYERS = 2;
 
     public Bid() {
         random = new Random();
-        scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), this::startBidParty, 0L, (long) BID_DELAY_TIME * 60 * 20);
+        scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), this::startBidParty, 0, BID_DELAY_TIME * 60 * 20);
         startBidParty();
     }
 
@@ -53,12 +53,13 @@ public class Bid {
 
         scheduler.scheduleSyncDelayedTask(PluginMain.getInstance(), () -> {
             Player winner = currentBidParty.getBestBidder();
-            int price = currentBidParty.getBestBidPrice();
+            double price = currentBidParty.getBestBidPrice();
 
             if (winner != null) {
                 winner.getServer().broadcastMessage(ChatColor.AQUA + "Le joueur " + winner.getDisplayName() + " a gagné l'enchère !\nIl remporte donc l'item " + bidItemName + " au prix de " + price + " points !");
                 winner.getInventory().addItem(bidItem);
                 winner.sendMessage(ChatColor.GREEN + "" + ChatColor.ITALIC + "Tu as remporté l'item " + bidItemName + " ! GG!");
+                currentBidParty.giveMoneyBack();
             } else {
                 server.broadcastMessage(ChatColor.AQUA + "Personne n'a remporté l'enchère !");
             }

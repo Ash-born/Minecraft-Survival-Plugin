@@ -17,7 +17,7 @@ public class PluginMain extends JavaPlugin  {
 
     @Override
     public void onEnable() {
-        XML.create_xml(null, null);
+        instance = this;
 
         getLogger().info("onEnable has been invoked!");
 
@@ -34,13 +34,13 @@ public class PluginMain extends JavaPlugin  {
         getCommand("pay").setExecutor(new Pay());
         getCommand("auction").setExecutor(new Auction());
 
-        instance = this;
         new Bid();
     }
 
     @Override
     public void onDisable() {
         getLogger().info("onDisable has been invoked!");
+        saveConfig();
     }
 
 }

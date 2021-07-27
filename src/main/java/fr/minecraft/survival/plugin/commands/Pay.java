@@ -7,9 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class Pay implements CommandExecutor {
+    FileConfiguration config = PluginMain.getInstance().getConfig();
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {

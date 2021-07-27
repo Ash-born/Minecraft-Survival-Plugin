@@ -10,9 +10,11 @@ import java.io.File;
 
 public class onConnexion implements Listener {
     XML xml = new XML();
+
     @EventHandler
-    public   void onPlayerJoin(PlayerJoinEvent event) throws Exception {
-        xml.addPlayer(new File(".\\config.xml"),event.getPlayer().getUniqueId().toString());
-        event.getPlayer().sendMessage("Vous  aviez " + xml.get_points(event.getPlayer().getUniqueId().toString()) + " Points" +  ChatColor.AQUA);
+    public void onPlayerJoin(PlayerJoinEvent event) throws Exception {
+        xml.addPlayer(new File(".\\config.xml"), event.getPlayer().getUniqueId().toString());
+        event.getPlayer().sendMessage("Vous  avez " + xml.get_points(event.getPlayer().getUniqueId().toString())
+                + " Points" + ChatColor.AQUA);
     }
 }

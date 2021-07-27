@@ -1,7 +1,11 @@
 package fr.minecraft.survival.plugin.utils;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import fr.minecraft.survival.plugin.main.PluginMain;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,8 +13,9 @@ import java.util.Objects;
 
 public class BidParty {
     ItemStack bidItem;
-    HashMap<Player, Integer> bidders;
+    HashMap<Player, Double> bidders;
     BidTimer timer;
+    FileConfiguration config = PluginMain.getInstance().getConfig();
     public boolean hasFinished = true;
 
     public BidParty()
@@ -33,7 +38,7 @@ public class BidParty {
         timer = null;
     }
 
-    public void setBid(Player bidder, int bidValue)
+    public void setBid(Player bidder, double bidValue)
     {
         bidders.put(bidder, bidValue);
     }
@@ -47,8 +52,8 @@ public class BidParty {
     {
         if (!bidders.keySet().isEmpty())
         {
-            int bestBidValue = getBestBidPrice();
-            for (Map.Entry<Player, Integer> entry : bidders.entrySet()) {
+            double bestBidValue = getBestBidPrice();
+            for (Map.Entry<Player, Double> entry : bidders.entrySet()) {
                 if (Objects.equals(bestBidValue, entry.getValue())) {
                     return entry.getKey();
                 }
@@ -58,7 +63,7 @@ public class BidParty {
         return null;
     }
 
-    public Integer getBestBidPrice()
+    public double getBestBidPrice()
     {
         if (!bidders.keySet().isEmpty()) {
             return Collections.max(bidders.values());
@@ -67,7 +72,7 @@ public class BidParty {
         return 0;
     }
 
-    public Integer getBidPrice(Player bidder)
+    public double getBidPrice(Player bidder)
     {
         if (!bidders.keySet().isEmpty() && bidders.containsKey(bidder)) {
             return bidders.get(bidder);
@@ -78,5 +83,22 @@ public class BidParty {
 
     public Integer getTimeLeft() {
         return timer.getTimeLeft();
+    }
+
+    public void giveMoneyBack() {
+        double bestBidPrice = getBestBidPrice();
+        if (bestBidPrice <= 0) {
+            return;
+        }
+
+        for (Player bidder: bidders.keySet()) {
+            double bidderBidPrice = getBidPrice(bidder);
+            if (bidderBidPrice == bestBidPrice) {
+                continue;
+            }
+
+            double bidderPoints = config.getDouble("points." + bidder.getName());
+            config.set("points." + bidder.getName(), bidderPoints + bidderBidPrice);
+        }
     }
 }

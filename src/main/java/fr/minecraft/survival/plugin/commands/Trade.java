@@ -41,7 +41,7 @@ public class Trade implements CommandExecutor {
     public    ItemStack netherite_tree =  item.createGuiItem(Material.NETHER_BRICK ,32,"32 netherite => 1920 points","Left Click for buying   Right click for selling for 80% of buying price");
     public    ItemStack netherite_for =  item.createGuiItem(Material.NETHER_BRICK ,64,"64 netherite => 3840 points","Left Click for buying   Right click for selling for 80% of buying price");
     public    ItemStack Experience = item.createGuiItem(Material.EXPERIENCE_BOTTLE,64,"700 points == 1800 experiences orbes");
-
+    public ItemStack addClaim  = item.createGuiItem(Material.BEDROCK,1,"3000 points for one more claim","Left Click for Buying");
 
 
     public  ItemStack vitre = item.createGuiItem(Material.WHITE_STAINED_GLASS_PANE,1," ");
@@ -73,7 +73,7 @@ public class Trade implements CommandExecutor {
             inv.setItem(19,goldenAplle);
             inv.setItem(20,addHomes);
             inv.setItem(21,Experience);
-            inv.setItem(22,vitre);
+            inv.setItem(22,addClaim);
             inv.setItem(23,netherite_one);
             inv.setItem(24,netherite_two);
             inv.setItem(25,netherite_tree);

@@ -22,3 +22,4 @@ commands:
     description: A command that gives you more informations about an ongoing auction.
   vanish:
   freeze:
+  stats:

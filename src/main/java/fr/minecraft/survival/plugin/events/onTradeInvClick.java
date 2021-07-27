@@ -88,6 +88,9 @@ public class    onTradeInvClick implements Listener {
                         }
 
                     }
+                    if(clicked.getType().equals(Material.BEDROCK)){
+                        checkitem(name,1,3000,clicked,event ,Material.BEDROCK);
+                    }
                     if (clicked.getType().equals(Material.NETHER_BRICK)) {
                         if (clicked.getAmount() == 1) {
                             checkitem(name, 1, 60, clicked, event, Material.NETHER_BRICK);
@@ -134,7 +137,7 @@ public class    onTradeInvClick implements Listener {
             if (e.isLeftClick()) {
 
                 if (points >= price) {
-                    if (  ! name.equals("700 points == 1800 experiences orbes") && !name.equals("Mending book <=> 1200 points") && !name.equals("One more home == 800 points")) {
+                    if (  ! name.equals("700 points == 1800 experiences orbes") && !name.equals("Mending book <=> 1200 points") && !name.equals("One more home == 800 points") && !name.equals("3000 points for one more claim")) {
                         if (item.hasAvaliableSlot(player)) {
                             config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points-price);
                             for (int i = 0; i < amount; i++) {
@@ -173,6 +176,13 @@ public class    onTradeInvClick implements Listener {
                             player.sendMessage(ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + points   + " points ") ;
 
                     }
+                    else if (name.equals("3000 points for on more claim")){
+
+                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points - price );
+                        player.sendMessage(ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + points   + " points ") ;
+
+                    }
+
                 }
                 else{
                     player.sendMessage("Vous n'avez aps assez de points");
@@ -184,7 +194,7 @@ public class    onTradeInvClick implements Listener {
 
             double test = (double) price /100 ;
             double retest = test *80;
-            if (! (name.equals("One more home == 800 points")) ) {
+            if (! (name.equals("One more home == 800 points") &&  ! (name.equals("3000 points for one more claim"))) ) {
 
                 if(!name.equals("700 points == 1800 experiences orbes") && !name.equals("Mending book <=> 1200 points")) {
 

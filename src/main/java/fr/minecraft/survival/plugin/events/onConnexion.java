@@ -29,6 +29,9 @@ public class onConnexion implements Listener {
             config.set("points." + event.getPlayer().getDisplayName() ,0.0);
             config.set("maxhome." + event.getPlayer().getDisplayName(),2);
             config.set("homecree." + event.getPlayer().getDisplayName(),0);
+            config.set("maxclaim." + event.getPlayer().getDisplayName(),1);
+            config.set("claimcree." + event.getPlayer().getDisplayName(),0);
+
             PluginMain.getInstance().saveConfig();
         }else{
             event.getPlayer().sendMessage(ChatColor.AQUA + "Vous avez  " +  config.getDouble("points." + event.getPlayer().getDisplayName())  + " Points ");

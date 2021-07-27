@@ -17,6 +17,7 @@ public class Point {
 
 
          config.set("points." + PlayerName , value);
+        PluginMain.getInstance().saveConfig();
     }
 
 

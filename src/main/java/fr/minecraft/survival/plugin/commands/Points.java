@@ -1,5 +1,6 @@
 package fr.minecraft.survival.plugin.commands;
 
+import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.XML;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

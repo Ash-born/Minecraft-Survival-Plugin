@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Bet implements CommandExecutor {
-    XML xml = PluginMain.xml;
+    XML xml = new XML();
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {

@@ -1,7 +1,8 @@
 package fr.minecraft.survival.plugin.utils;
 
-import java.io.File;
-import java.io.IOException;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -9,14 +10,17 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
+import java.io.File;
+import java.io.IOException;
 
 public class XML {
     public static final String xmlFilePath = ".\\config.xml";
 
-    public  static final      String filePath = ".\\config.xml";
+    public static final String filePath = ".\\config.xml";
+
+    public XML() {
+
+    }
 
     public static void create_xml(String uuid, String points) {
 
@@ -103,7 +107,7 @@ public class XML {
         }
     }
 
-    public  void addPlayer(File xml, String UUID) throws ParserConfigurationException, TransformerConfigurationException, TransformerException, SAXException, IOException {
+    public void addPlayer(File xml, String UUID) throws ParserConfigurationException, TransformerException, SAXException, IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
 
@@ -117,7 +121,7 @@ public class XML {
                 }
             }
         }
-        if( document.getElementsByTagName("UUID").item(0) != null) {
+        if (document.getElementsByTagName("UUID").item(0) != null) {
             if (faisable == 0) {
                 Element cd = document.createElement("Player");
 
@@ -151,7 +155,7 @@ public class XML {
 
                 DOMSource source = new DOMSource(document);
             }
-        }else{
+        } else {
             Element cd = document.createElement("Player");
 
             Element root = document.getDocumentElement();
@@ -186,8 +190,8 @@ public class XML {
 
     }
 
-    private  void writeXMLFile(Document doc)
-            throws TransformerFactoryConfigurationError, TransformerConfigurationException, TransformerException {
+    private void writeXMLFile(Document doc)
+            throws TransformerFactoryConfigurationError, TransformerException {
         doc.getDocumentElement().normalize();
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
@@ -198,9 +202,7 @@ public class XML {
         System.out.println("XML file updated successfully");
     }
 
-
-
-    public  void updatePoints(String UUID, String Points) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void updatePoints(String UUID, String Points) throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
         //Read XML file.
         File inputFile = new File(filePath);
@@ -219,8 +221,8 @@ public class XML {
         NodeList players =
                 document.getElementsByTagName("Player");
 
-        for (int i = 0 ; i < document.getElementsByTagName("UUID").getLength() ; i ++){
-            if(document.getElementsByTagName("UUID").item(i).getTextContent().equals(UUID)){
+        for (int i = 0; i < document.getElementsByTagName("UUID").getLength(); i++) {
+            if (document.getElementsByTagName("UUID").item(i).getTextContent().equals(UUID)) {
 
                 // get first staff
                 Node player = players.item(i);
@@ -250,8 +252,7 @@ public class XML {
 
     }
 
-
-    public  void updateHomeCree(String UUID, String Points) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void updatemaxHomes(String UUID, String Points) throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
         //Read XML file.
         File inputFile = new File(filePath);
@@ -270,8 +271,58 @@ public class XML {
         NodeList players =
                 document.getElementsByTagName("Player");
 
-        for (int i = 0 ; i < document.getElementsByTagName("UUID").getLength() ; i ++){
-            if(document.getElementsByTagName("UUID").item(i).getTextContent().equals(UUID)){
+        for (int i = 0; i < document.getElementsByTagName("UUID").getLength(); i++) {
+            if (document.getElementsByTagName("UUID").item(i).getTextContent().equals(UUID)) {
+
+                // get first staff
+                Node player = players.item(i);
+                if (player.getNodeType() == Node.ELEMENT_NODE) {
+
+
+                    NodeList childNodes = player.getChildNodes();
+
+                    for (int j = 0; j < childNodes.getLength(); j++) {
+                        Node item = childNodes.item(j);
+                        if (item.getNodeType() == Node.ELEMENT_NODE) {
+
+                            System.out.println("Test 1");
+                            if ("max_Home".equalsIgnoreCase(item.getNodeName())) {
+                                System.out.println("Done");
+                                item.setTextContent(Points);
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+        }
+        writeXMLFile(document);
+
+    }
+
+    public void updateHomeCree(String UUID, String Points) throws ParserConfigurationException, IOException, SAXException, TransformerException {
+
+        //Read XML file.
+        File inputFile = new File(filePath);
+
+        //Create DocumentBuilderFactory object.
+        DocumentBuilderFactory dbFactory =
+                DocumentBuilderFactory.newInstance();
+
+        //Get DocumentBuilder object.
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+        //Parse XML file.
+        Document document = dBuilder.parse(inputFile);
+
+        //Get element by tag name.
+        NodeList players =
+                document.getElementsByTagName("Player");
+
+        for (int i = 0; i < document.getElementsByTagName("UUID").getLength(); i++) {
+            if (document.getElementsByTagName("UUID").item(i).getTextContent().equals(UUID)) {
 
                 // get first staff
                 Node player = players.item(i);
@@ -301,53 +352,7 @@ public class XML {
 
     }
 
-
-    public  String get_points (String UUID){
-
-
-        // Instantiate the Factory
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        String filePath = ".\\config.xml";
-        String points = "";
-        try {
-            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-
-            // parse XML file
-            DocumentBuilder db = dbf.newDocumentBuilder();
-
-            Document doc = db.parse(new File(filePath));
-
-            doc.getDocumentElement().normalize();
-
-
-            NodeList list = doc.getElementsByTagName("UUID");
-
-            for (int temp = 0; temp < list.getLength(); temp++) {
-
-                Node node = list.item(temp);
-
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-                    Element element = (Element) node;
-
-
-                    NodeList id = doc.getElementsByTagName("UUID");
-                    if (id.item(temp).getFirstChild().getTextContent().equals(UUID)) {
-
-                        points  = doc.getElementsByTagName("Points").item(temp).getFirstChild().getTextContent();
-                    }
-
-                }
-            }
-
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-
-        }
-
-        return points;
-    }
-    public  String get_max_homes (String UUID){
+    public String get_points(String UUID) {
 
 
         // Instantiate the Factory
@@ -379,7 +384,7 @@ public class XML {
                     NodeList id = doc.getElementsByTagName("UUID");
                     if (id.item(temp).getFirstChild().getTextContent().equals(UUID)) {
 
-                        points  = doc.getElementsByTagName("max_Home").item(temp).getFirstChild().getTextContent();
+                        points = doc.getElementsByTagName("Points").item(temp).getFirstChild().getTextContent();
                     }
 
                 }
@@ -392,7 +397,8 @@ public class XML {
 
         return points;
     }
-    public  String get_home_cree (String UUID){
+
+    public String get_max_homes(String UUID) {
 
 
         // Instantiate the Factory
@@ -424,7 +430,7 @@ public class XML {
                     NodeList id = doc.getElementsByTagName("UUID");
                     if (id.item(temp).getFirstChild().getTextContent().equals(UUID)) {
 
-                        points  = doc.getElementsByTagName("Home_Cree").item(temp).getFirstChild().getTextContent();
+                        points = doc.getElementsByTagName("max_Home").item(temp).getFirstChild().getTextContent();
                     }
 
                 }
@@ -438,10 +444,49 @@ public class XML {
         return points;
     }
 
+    public String get_home_cree(String UUID) {
 
 
+        // Instantiate the Factory
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        String filePath = ".\\config.xml";
+        String points = "";
+        try {
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-    public XML(){
+            // parse XML file
+            DocumentBuilder db = dbf.newDocumentBuilder();
 
+            Document doc = db.parse(new File(filePath));
+
+            doc.getDocumentElement().normalize();
+
+
+            NodeList list = doc.getElementsByTagName("UUID");
+
+            for (int temp = 0; temp < list.getLength(); temp++) {
+
+                Node node = list.item(temp);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element element = (Element) node;
+
+
+                    NodeList id = doc.getElementsByTagName("UUID");
+                    if (id.item(temp).getFirstChild().getTextContent().equals(UUID)) {
+
+                        points = doc.getElementsByTagName("Home_Cree").item(temp).getFirstChild().getTextContent();
+                    }
+
+                }
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+
+        }
+
+        return points;
     }
 }

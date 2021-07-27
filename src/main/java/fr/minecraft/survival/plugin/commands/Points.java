@@ -16,7 +16,7 @@ public class Points implements CommandExecutor {
 
             XML xml = new XML();
 
-            p.sendMessage(ChatColor.AQUA + "Vous avez actuellement " + xml.get_points(p.getUniqueId().toString()) + "Points");
+            p.sendMessage(ChatColor.AQUA + "Vous avez actuellement " + xml.get_points(p.getUniqueId().toString()) + " points.");
         return false;
             }
 

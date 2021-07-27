@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "java",
+			"targetPath": "C:/Users/abdel/IdeaProjects/Spigot-1.16.5/plugins",
+			"elements": [
+				"${compileOutput}",
+				"plugin.yml"
+			],
+			"problemMatcher": [],
+			"label": "java: exportjar:Minecraft-Survival-Plugin",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Run Server",
+			"options": {
+				"cwd": "C:/Users/abdel/IdeaProjects/Spigot-1.16.5"
+			},
+			"command": "java -Dfile.encoding=UTF-8 -jar spigot-1.16.5.jar",
+			"args": [
+				"--nogui"
+			]
+		}
+	]
+}

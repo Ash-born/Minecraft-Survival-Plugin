@@ -19,7 +19,7 @@ public class Bid {
     BidTimer bidTimer;
 
     // BID_TIME in minutes
-    int BID_TIME = 1;
+    int BID_TIME = 5;
 
     // BID_DELAY_TIME in minutes
     int BID_DELAY_TIME = 60;
@@ -76,7 +76,7 @@ public class Bid {
             }
 
             currentBidParty.endBid();
-        }, (long) BID_TIME * 60L * 20L);
+        }, BID_TIME * 60 * 20);
     }
 
     public ItemStack randomItem() {

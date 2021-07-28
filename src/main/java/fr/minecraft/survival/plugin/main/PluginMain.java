@@ -26,6 +26,7 @@ public class PluginMain extends JavaPlugin  {
 
         getServer().getPluginManager().registerEvents(new onConnexion(), this);
         getServer().getPluginManager().registerEvents(new onInteractWithClaimedChunk(), this);
+        getServer().getPluginManager().registerEvents(new onBlockMined(), this);
         getServer().getPluginManager().registerEvents(new onTradeInvClick(), this);
 
         getServer().getPluginManager().registerEvents(new onBlockMined(), this);
@@ -38,7 +39,7 @@ public class PluginMain extends JavaPlugin  {
         getCommand("delhome").setExecutor(new DelHome());
         getCommand("bet").setExecutor(new Bet());
         getCommand("ratio").setExecutor(new Ratio());
-        getCommand("trade").setExecutor(new Trade());
+         getCommand("trade").setExecutor(new Trade());
         getCommand("pay").setExecutor(new Pay());
         getCommand("auction").setExecutor(new Auction());
         getCommand("stats").setExecutor(new Stats());

@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Pay implements CommandExecutor {
-    
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (!(commandSender instanceof Player) || args.length < 2)
@@ -42,10 +42,11 @@ public class Pay implements CommandExecutor {
                 try {
                     Points.setPoints(sender, senderPoints - pts);
                     Points.setPoints(receiver, Points.getPoints(receiver) + pts);
+                    String roundedPts = String.format("%.2f", pts);
 
-                    sender.sendMessage(ChatColor.GREEN + "" + pts + " points ont bien été envoyés chez "
+                    sender.sendMessage(ChatColor.GREEN + "" + roundedPts + " points ont bien été envoyés chez "
                             + receiver.getDisplayName() + " !");
-                    receiver.sendMessage(ChatColor.AQUA + "Vous avez reçu " + pts + " points de la part de "
+                    receiver.sendMessage(ChatColor.AQUA + "Vous avez reçu " + roundedPts + " points de la part de "
                             + sender.getDisplayName() + " !");
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -16,7 +16,7 @@ public class Points implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
 
-            p.sendMessage(ChatColor.AQUA + "Vous avez actuellement " + getPoints(p));
+            p.sendMessage(ChatColor.AQUA + "Vous avez actuellement " + String.format("%.2f", getPoints(p)));
             return false;
         }
 

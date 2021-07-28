@@ -5,18 +5,20 @@ import fr.minecraft.survival.plugin.events.*;
 import fr.minecraft.survival.plugin.utils.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
 public class PluginMain extends JavaPlugin {
     public static PluginMain instance;
+    public static HashMap<Player, Location> frozenPlayers = new HashMap<>();
+    public static HashMap<String, String> chunks = new HashMap<>();
+    public Bid bid;
 
     public static PluginMain getInstance() {
         return instance;
     }
-    public static HashMap<Player, Location> frozenPlayers = new HashMap<>();
-    public static  HashMap<String,String> chunks =  new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -24,13 +26,13 @@ public class PluginMain extends JavaPlugin {
 
         getLogger().info("onEnable has been invoked!");
 
-        getServer().getPluginManager().registerEvents(new onConnexion(), this);
-        getServer().getPluginManager().registerEvents(new onInteractWithClaimedChunk(), this);
-        getServer().getPluginManager().registerEvents(new onTradeInvClick(), this);
-
-        getServer().getPluginManager().registerEvents(new onBlockMined(), this);
-        getServer().getPluginManager().registerEvents(new onPlayerConnect(), this);
-        getServer().getPluginManager().registerEvents(new onPlayerLeft(), this);
+        PluginManager plManager = getServer().getPluginManager();
+        plManager.registerEvents(new onConnexion(), this);
+        plManager.registerEvents(new onInteractWithClaimedChunk(), this);
+        plManager.registerEvents(new onTradeInvClick(), this);
+        plManager.registerEvents(new onBlockMined(), this);
+        plManager.registerEvents(new onPlayerConnect(), this);
+        plManager.registerEvents(new onPlayerLeft(), this);
 
         getCommand("points").setExecutor(new Points());
         getCommand("sethome").setExecutor(new SetHome());
@@ -44,16 +46,16 @@ public class PluginMain extends JavaPlugin {
         getCommand("stats").setExecutor(new Stats());
         getCommand("claim").setExecutor(new Claim());
         getCommand("unclaim").setExecutor(new Unclaim());
-
-        new Bid();
         getCommand("vanish").setExecutor(new Vanish());
         getCommand("freeze").setExecutor(new Freeze());
 
+        bid = new Bid();
     }
 
     @Override
     public void onDisable() {
         getLogger().info("onDisable has been invoked!");
+        bid = null;
         saveConfig();
     }
 

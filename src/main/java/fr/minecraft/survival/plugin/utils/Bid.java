@@ -16,9 +16,10 @@ public class Bid {
     Random random;
     Server server = Bukkit.getServer();
     BukkitScheduler scheduler = server.getScheduler();
+    BidTimer bidTimer;
 
     // BID_TIME in minutes
-    int BID_TIME = 5;
+    int BID_TIME = 1;
 
     // BID_DELAY_TIME in minutes
     int BID_DELAY_TIME = 60;
@@ -29,7 +30,6 @@ public class Bid {
     public Bid() {
         random = new Random();
         scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), this::startBidParty, 0, BID_DELAY_TIME * 60 * 20);
-        startBidParty();
     }
 
     public static BidParty getCurrentBidParty() {
@@ -41,8 +41,13 @@ public class Bid {
             return;
 
         // Every one second, we run this task
-        BidTimer bidTimer = new BidTimer(BID_TIME * 60);
-        bidTimer.runTaskTimerAsynchronously(PluginMain.getInstance(), 0, 1 * 20);
+        if (bidTimer != null && !bidTimer.isCancelled()) {
+            bidTimer.cancel();
+            bidTimer = null;
+        }
+
+        bidTimer = new BidTimer(BID_TIME * 60);
+        bidTimer.runTaskTimer(PluginMain.getInstance(), 0, 1 * 20);
 
         ItemStack bidItem = randomItem();
         // Can't do better code to get name for item than this :(
@@ -55,7 +60,7 @@ public class Bid {
 
         scheduler.scheduleSyncDelayedTask(PluginMain.getInstance(), () -> {
             Player winner = currentBidParty.getBestBidder();
-            double price = currentBidParty.getBestBidPrice();
+            String price = String.format("%.2f", currentBidParty.getBestBidPrice());
 
             if (winner != null) {
                 winner.getServer()
@@ -71,7 +76,7 @@ public class Bid {
             }
 
             currentBidParty.endBid();
-        }, BID_TIME * 60 * 20);
+        }, (long) BID_TIME * 60L * 20L);
     }
 
     public ItemStack randomItem() {

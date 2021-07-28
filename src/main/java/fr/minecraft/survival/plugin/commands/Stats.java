@@ -21,8 +21,8 @@ public class Stats implements CommandExecutor {
         int maxClaim = config.getInt("maxclaim." + name);
         int claimcree = config.getInt("claimcree." + name);
         p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement  " + Points + " Points");
-        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement   " + homecree + "/" + maxHome  + " Home  Cree");
-        p.sendMessage( ChatColor.YELLOW +"Vous avez actuellement   " + claimcree + "/" + maxClaim  + " Claim  Cree");
+        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement   " + homecree + "/" + maxHome + " Home  Cree");
+        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement   " + claimcree + "/" + maxClaim + " Claim  Cree");
 
         return false;
     }

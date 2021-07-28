@@ -5,18 +5,20 @@ import fr.minecraft.survival.plugin.events.*;
 import fr.minecraft.survival.plugin.utils.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
-public class PluginMain extends JavaPlugin  {
-    public  static PluginMain instance;
+public class PluginMain extends JavaPlugin {
+    public static PluginMain instance;
+    public static HashMap<Player, Location> frozenPlayers = new HashMap<>();
+    public static HashMap<String, String> chunks = new HashMap<>();
+    public Bid bid;
 
     public static PluginMain getInstance() {
         return instance;
     }
-    public HashMap<Player, Location> frozenPlayers = new HashMap<>();
-    public static  HashMap<String,String>chunks =  new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -24,14 +26,20 @@ public class PluginMain extends JavaPlugin  {
 
         getLogger().info("onEnable has been invoked!");
 
-        getServer().getPluginManager().registerEvents(new onConnexion(), this);
-        getServer().getPluginManager().registerEvents(new onInteractWithClaimedChunk(), this);
-        getServer().getPluginManager().registerEvents(new onBlockMined(), this);
-        getServer().getPluginManager().registerEvents(new onTradeInvClick(), this);
+        PluginManager plManager = getServer().getPluginManager();
+        plManager.registerEvents(new onConnexion(), this);
+        plManager.registerEvents(new onInteractWithClaimedChunk(), this);
+        plManager.registerEvents(new onTradeInvClick(), this);
+        plManager.registerEvents(new onBlockMined(), this);
+        plManager.registerEvents(new onPlayerConnect(), this);
+        plManager.registerEvents(new onPlayerLeft(), this);
+        plManager.registerEvents(new onPlayerMove(), this);
+        plManager.registerEvents(new onMessage(), this);
+        plManager.registerEvents(new onClassInventoryClick(), this);
+        plManager.registerEvents(new onInventoryDragItem(), this);
+        plManager.registerEvents(new onSwapInventoryItem(), this);
+        plManager.registerEvents(new onPlayerDamage(), this);
 
-        getServer().getPluginManager().registerEvents(new onBlockMined(), this);
-        getServer().getPluginManager().registerEvents(new onPlayerConnect(), this);
-        getServer().getPluginManager().registerEvents(new onPlayerLeft(), this);
 
         getCommand("points").setExecutor(new Points());
         getCommand("sethome").setExecutor(new SetHome());
@@ -39,25 +47,27 @@ public class PluginMain extends JavaPlugin  {
         getCommand("delhome").setExecutor(new DelHome());
         getCommand("bet").setExecutor(new Bet());
         getCommand("ratio").setExecutor(new Ratio());
-         getCommand("trade").setExecutor(new Trade());
+        getCommand("trade").setExecutor(new Trade());
         getCommand("pay").setExecutor(new Pay());
         getCommand("auction").setExecutor(new Auction());
         getCommand("stats").setExecutor(new Stats());
         getCommand("claim").setExecutor(new Claim());
         getCommand("unclaim").setExecutor(new Unclaim());
-
-
-        new Bid();
         getCommand("vanish").setExecutor(new Vanish());
         getCommand("freeze").setExecutor(new Freeze());
+        getCommand("classes").setExecutor(new Classes());
+        getCommand("currentclasse").setExecutor(new CurrentClasse());
+        getCommand("upgradeclasse").setExecutor(new upgradeClass());
 
-
-
+        bid = new Bid();
     }
 
     @Override
     public void onDisable() {
         getLogger().info("onDisable has been invoked!");
+        bid = null;
+        saveConfig();
+
     }
 
 }

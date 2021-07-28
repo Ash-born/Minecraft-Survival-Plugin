@@ -1,7 +1,6 @@
 package fr.minecraft.survival.plugin.commands;
 
 import fr.minecraft.survival.plugin.main.PluginMain;
-import fr.minecraft.survival.plugin.utils.XML;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,19 +9,29 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class Points implements CommandExecutor {
+    static FileConfiguration config = PluginMain.getInstance().getConfig();
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if(commandSender instanceof Player) {
+        if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
-            FileConfiguration config = PluginMain.getInstance().getConfig();
 
-
-            p.sendMessage(ChatColor.AQUA + "Vous avez actuellement " + config.getDouble("points." + p.getDisplayName()));
-        return false;
-            }
+            p.sendMessage(ChatColor.AQUA + "Vous avez actuellement " + String.format("%.2f", getPoints(p)));
+            return false;
+        }
 
         return false;
 
+    }
+
+    public static double getPoints(Player player) {
+
+        return config.getDouble("points." + player.getName());
+    }
+
+    public static void setPoints(Player player, Double points) {
+
+        config.set("points." + player.getName(), points);
+        PluginMain.getInstance().saveConfig();
     }
 }

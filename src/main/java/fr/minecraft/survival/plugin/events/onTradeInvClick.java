@@ -3,26 +3,22 @@ package fr.minecraft.survival.plugin.events;
 import fr.minecraft.survival.plugin.commands.Trade;
 import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.Item;
-import fr.minecraft.survival.plugin.utils.XML;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
-public class    onTradeInvClick implements Listener {
+public class onTradeInvClick implements Listener {
     Trade tr = new Trade();
 
     Item item = new Item();
@@ -30,18 +26,13 @@ public class    onTradeInvClick implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-
-        Player player = (Player) event.getWhoClicked(); // The player that clicked the item
         ItemStack clicked = event.getCurrentItem(); // The item that was clicked
         Inventory inventory = event.getInventory(); // The inventory that was clicked in
         if (inventory.contains(tr.diamond_one)) {
             event.setCancelled(true);
 
-
             try {
                 if (clicked != null) {
-
-                    double points = config.getDouble("points." + ((Player) event.getWhoClicked()).getDisplayName());
                     String name = clicked.getItemMeta().getDisplayName();
                     if (clicked.getType().equals(Material.DIAMOND)) {
                         if (clicked.getAmount() == 1) {
@@ -49,7 +40,8 @@ public class    onTradeInvClick implements Listener {
                         } else if (clicked.getAmount() == 16) {
                             checkitem(clicked.getItemMeta().getDisplayName(), 16, 80, clicked, event, Material.DIAMOND);
                         } else if (clicked.getAmount() == 32) {
-                            checkitem(clicked.getItemMeta().getDisplayName(), 32, 160, clicked, event, Material.DIAMOND);
+                            checkitem(clicked.getItemMeta().getDisplayName(), 32, 160, clicked, event,
+                                    Material.DIAMOND);
                         } else {
                             checkitem(name, 64, 320, clicked, event, Material.DIAMOND);
                         }
@@ -88,18 +80,18 @@ public class    onTradeInvClick implements Listener {
                         }
 
                     }
-                    if(clicked.getType().equals(Material.BEDROCK)){
-                        checkitem(name,1,3000,clicked,event ,Material.BEDROCK);
+                    if (clicked.getType().equals(Material.BEDROCK)) {
+                        checkitem(name, 1, 3000, clicked, event, Material.BEDROCK);
                     }
-                    if (clicked.getType().equals(Material.NETHER_BRICK)) {
+                    if (clicked.getType().equals(Material.NETHERITE_INGOT)) {
                         if (clicked.getAmount() == 1) {
-                            checkitem(name, 1, 60, clicked, event, Material.NETHER_BRICK);
+                            checkitem(name, 1, 60, clicked, event, Material.NETHERITE_INGOT);
                         } else if (clicked.getAmount() == 16) {
-                            checkitem(name, 16, 960, clicked, event, Material.NETHER_BRICK);
+                            checkitem(name, 16, 960, clicked, event, Material.NETHERITE_INGOT);
                         } else if (clicked.getAmount() == 32) {
-                            checkitem(name, 32, 1920, clicked, event, Material.NETHER_BRICK);
+                            checkitem(name, 32, 1920, clicked, event, Material.NETHERITE_INGOT);
                         } else {
-                            checkitem(name, 64, 3840, clicked, event, Material.NETHER_BRICK);
+                            checkitem(name, 64, 3840, clicked, event, Material.NETHERITE_INGOT);
                         }
                     }
                     if (name.equals("Mending book => 1200 points")) {
@@ -124,97 +116,98 @@ public class    onTradeInvClick implements Listener {
 
     }
 
-    public void checkitem(String name,  int amount,  int price, ItemStack Clicked, InventoryClickEvent e, Material m) throws ParserConfigurationException, IOException, TransformerException, SAXException {
+    public void checkitem(String name, int amount, int price, ItemStack Clicked, InventoryClickEvent e, Material m)
+            throws ParserConfigurationException, IOException, TransformerException, SAXException {
         Player player = (Player) e.getWhoClicked();
-        String uuid = player.getUniqueId().toString();
 
         double points = config.getDouble("points." + ((Player) e.getWhoClicked()).getDisplayName());
         int home_cree = config.getInt("homecree." + ((Player) e.getWhoClicked()).getDisplayName());
         e.setCancelled(true);
 
+        if (e.isLeftClick()) {
 
+            if (points >= price) {
+                if (!name.equals("700 points == 1800 experiences orbes") && !name.equals("Mending book <=> 1200 points")
+                        && !name.equals("One more home == 800 points")
+                        && !name.equals("3000 points for one more claim")) {
+                    if (item.hasAvaliableSlot(player)) {
+                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName(), points - price);
+                        for (int i = 0; i < amount; i++) {
 
-            if (e.isLeftClick()) {
-
-                if (points >= price) {
-                    if (  ! name.equals("700 points == 1800 experiences orbes") && !name.equals("Mending book <=> 1200 points") && !name.equals("One more home == 800 points") && !name.equals("3000 points for one more claim")) {
-                        if (item.hasAvaliableSlot(player)) {
-                            config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points-price);
-                            for (int i = 0; i < amount; i++) {
-
-                                player.getInventory().addItem(new ItemStack(m));
-                            }
-                            player.sendMessage(ChatColor.GREEN + "Achat Effectué avec succes ,  Vous avez encore "+ (points - price)  + " points " );
-                        } else {
-                            player.sendMessage(ChatColor.RED + "Inventory Full . You can't purshase anymore.");
+                            player.getInventory().addItem(new ItemStack(m));
                         }
-
-
-                    } else if (name.equals("One more home == 800 points")) {
-                        if (points >= price) {
-                            config.set("homecree." + ((Player) e.getWhoClicked()).getDisplayName() , home_cree + 1);
-                            config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points-price);
-                            player.sendMessage(ChatColor.GREEN + "Home acheté  Effectué avec Succes , Vous avez encore " + (points - price)  + " points ");
-
-                        } else {
-
-                            player.sendMessage(ChatColor.RED + "Vous n'avez pas assez de points");
-                        }
-                    } else if (name.equals("700 points == 1800 experiences orbes")) {
-
-                            player.giveExp(1800);
-                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points-price);
-                        player.sendMessage(ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + points  + " points ");
-
-
-                    } else if (name.equals("Mending book => 1200 points")) {
-
-                            ItemStack mending = new ItemStack(Material.ENCHANTED_BOOK);
-
-                            player.getInventory().addItem(item.addBookEnchantment(mending, Enchantment.MENDING, 1));
-                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points-price);
-                            player.sendMessage(ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + points   + " points ") ;
-
-                    }
-                    else if (name.equals("3000 points for on more claim")){
-
-                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points - price );
-                        player.sendMessage(ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + points   + " points ") ;
-
+                        player.sendMessage(ChatColor.GREEN + "Achat Effectué avec succes ,  Vous avez encore "
+                                + (points - price) + " points ");
+                    } else {
+                        player.sendMessage(ChatColor.RED + "Inventory Full . You can't purshase anymore.");
                     }
 
-                }
-                else{
-                    player.sendMessage("Vous n'avez aps assez de points");
+                } else if (name.equals("One more home == 800 points")) {
+                    if (points >= price) {
+                        config.set("homecree." + ((Player) e.getWhoClicked()).getDisplayName(), home_cree + 1);
+                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName(), points - price);
+                        player.sendMessage(ChatColor.GREEN + "Home acheté  Effectué avec Succes , Vous avez encore "
+                                + (points - price) + " points ");
+
+                    } else {
+
+                        player.sendMessage(ChatColor.RED + "Vous n'avez pas assez de points");
+                    }
+                } else if (name.equals("700 points == 1800 experiences orbes")) {
+
+                    player.giveExp(1800);
+                    config.set("points." + ((Player) e.getWhoClicked()).getDisplayName(), points - price);
+                    player.sendMessage(
+                            ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + (points - price) + " points ");
+
+                } else if (name.equals("Mending book => 1200 points")) {
+
+                    ItemStack mending = new ItemStack(Material.ENCHANTED_BOOK);
+
+                    player.getInventory().addItem(item.addBookEnchantment(mending, Enchantment.MENDING, 1));
+                    config.set("points." + ((Player) e.getWhoClicked()).getDisplayName(), points - price);
+                    player.sendMessage(
+                            ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + (points - price) + " points ");
+
+                } else if (name.equals("3000 points for one more claim")) {
+                    int maxclaim = config.getInt("maxclaim." +  ((Player) e.getWhoClicked()).getDisplayName());
+                    config.set("maxclaim." +  ((Player) e.getWhoClicked()).getDisplayName(), maxclaim + 1 );
+                    config.set("points." + ((Player) e.getWhoClicked()).getDisplayName(), points - price);
+                    player.sendMessage(
+                            ChatColor.GREEN + "Achat Effectué avec Succes , Vous avez encore " + (points - price) + " points ");
+
                 }
 
+            } else {
+                player.sendMessage("Vous n'avez aps assez de points");
             }
 
-         else if (e.isRightClick()) {
+        }
 
-            double test = (double) price /100 ;
-            double retest = test *80;
-            if (! (name.equals("One more home == 800 points") &&  ! (name.equals("3000 points for one more claim"))) ) {
+        else if (e.isRightClick()) {
 
-                if(!name.equals("700 points == 1800 experiences orbes") && !name.equals("Mending book <=> 1200 points")) {
+            double test = (double) price / 100;
+            double retest = test * 80;
+            if (!(name.equals("One more home == 800 points") && !(name.equals("3000 points for one more claim")))) {
+
+                if (!name.equals("700 points == 1800 experiences orbes")
+                        && !name.equals("Mending book <=> 1200 points")) {
 
                     if (player.getInventory().containsAtLeast(new ItemStack(m), amount)) {
 
-
                         ItemStack paper = new ItemStack(m, amount);
                         player.getInventory().removeItem(paper);
-                        player.sendMessage(ChatColor.RED + "Vous avez gagné " + retest +  " points  en vendant "  + paper.getType() + " * " + paper.getAmount());
+                        player.sendMessage(ChatColor.RED + "Vous avez gagné " + retest + " points  en vendant "
+                                + paper.getType() + " * " + paper.getAmount());
 
-                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName() , points+retest);
+                        config.set("points." + ((Player) e.getWhoClicked()).getDisplayName(), points + retest);
                     } else {
                         player.sendMessage(ChatColor.RED + "Vous n'avais pas l'item selectionné");
                     }
-                }
-                else{
+                } else {
                     player.sendMessage(ChatColor.DARK_RED + "Vous ne pouvez pas vendre cet item");
                 }
-            }
-            else{
+            } else {
                 player.sendMessage(ChatColor.DARK_RED + "Vous ne pouvez pas vendre cet item");
             }
             PluginMain.getInstance().saveConfig();
@@ -223,7 +216,3 @@ public class    onTradeInvClick implements Listener {
 
     }
 }
-
-
-
-

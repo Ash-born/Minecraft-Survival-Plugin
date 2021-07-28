@@ -9,7 +9,7 @@
 				"plugin.yml"
 			],
 			"problemMatcher": [],
-			"label": "java: exportjar:Minecraft-Survival-Plugin",
+			"label": "Build Plugin",
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -24,7 +24,8 @@
 			"command": "java -Dfile.encoding=UTF-8 -jar spigot-1.16.5.jar",
 			"args": [
 				"--nogui"
-			]
+			],
+			"problemMatcher": []
 		}
 	]
 }

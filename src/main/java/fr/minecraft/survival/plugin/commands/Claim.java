@@ -32,11 +32,11 @@ public class Claim implements CommandExecutor {
                     chunks.addChunk(ChunkId,name);
                     p.sendMessage(ChatColor.GREEN + "The Chunk has been Claimed");
                     for (int i = 0; i < p.getWorld().getPlayers().size(); i++) {
-                        p.sendMessage(ChatColor.DARK_PURPLE + name  + " has claimed the Chunk with X : " + chunk.getX() + ". And Z :  " + chunk.getZ());
+                        p.getWorld().getPlayers().get(i).sendMessage(ChatColor.DARK_PURPLE + name  + " has claimed the Chunk with X : " + chunk.getX() + ". And Z :  " + chunk.getZ());
                     }
                 }
                 else{
-                    p.sendMessage(ChatColor.RED + "Vous n'avez plus de home libre");
+                    p.sendMessage(ChatColor.RED + "Vous n'avez plus de Claim libre");
                 }
             }
 

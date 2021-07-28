@@ -10,18 +10,19 @@ import org.bukkit.entity.Player;
 
 public class Stats implements CommandExecutor {
     FileConfiguration config = PluginMain.getInstance().getConfig();
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         Player p = (Player) commandSender;
         String name = p.getDisplayName();
-        double Points = config.getDouble("points." + name );
+        double Points = config.getDouble("points." + name);
         int maxHome = config.getInt("maxhome." + name);
         int homecree = config.getInt("homecree." + name);
         int maxClaim = config.getInt("maxclaim." + name);
         int claimcree = config.getInt("claimcree." + name);
         p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement  " + Points + " Points");
-        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement   " + homecree + "/" + maxHome  + " Home  Cree");
-        p.sendMessage( ChatColor.YELLOW +"Vous avez actuellement   " + claimcree + "/" + maxClaim  + " Claim  Cree");
+        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement   " + homecree + "/" + maxHome + " Home  Cree");
+        p.sendMessage(ChatColor.YELLOW + "Vous avez actuellement   " + claimcree + "/" + maxClaim + " Claim  Cree");
 
         return false;
     }

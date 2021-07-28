@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class Item {
 
-    public ItemStack createGuiItem(final Material material,int amount, final String name, final String... lore) {
+    public ItemStack createGuiItem(final Material material, int amount, final String name, final String... lore) {
         final ItemStack item = new ItemStack(material, amount);
         final ItemMeta meta = item.getItemMeta();
 
@@ -26,17 +26,19 @@ public class Item {
 
         return item;
     }
-    public ItemStack addBookEnchantment(ItemStack item, Enchantment enchantment, int level){
+
+    public ItemStack addBookEnchantment(ItemStack item, Enchantment enchantment, int level) {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(enchantment, level, true);
         item.setItemMeta(meta);
         return item;
     }
-    public boolean hasAvaliableSlot(Player player){
+
+    public boolean hasAvaliableSlot(Player player) {
         Inventory inv = player.getInventory();
-        Boolean check=false;
-        for (ItemStack item: inv.getContents()) {
-            if(item == null) {
+        Boolean check = false;
+        for (ItemStack item : inv.getContents()) {
+            if (item == null) {
                 check = true;
                 break;
             }
@@ -44,7 +46,8 @@ public class Item {
 
         return check;
     }
-    public  void removeInventoryItems(Inventory inv, Material type, int amount) {
+
+    public void removeInventoryItems(Inventory inv, Material type, int amount) {
         for (ItemStack is : inv.getContents()) {
             if (is != null && is.getType() == type) {
                 int newamount = is.getAmount() - amount;
@@ -54,12 +57,14 @@ public class Item {
                 } else {
                     inv.remove(is);
                     amount = -newamount;
-                    if (amount == 0) break;
+                    if (amount == 0)
+                        break;
                 }
             }
         }
     }
-    public Item(){
+
+    public Item() {
 
     }
 }

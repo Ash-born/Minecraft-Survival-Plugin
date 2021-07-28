@@ -26,3 +26,6 @@ commands:
   stats:
   claim:
   unclaim:
+  classes:
+  currentclasse:
+  upgradeclasse:

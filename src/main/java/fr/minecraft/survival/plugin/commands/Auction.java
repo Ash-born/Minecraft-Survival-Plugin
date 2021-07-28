@@ -26,8 +26,19 @@ public class Auction implements CommandExecutor {
 
         int seconds = bidParty.getTimeLeft();
         String time = DurationFormatUtils.formatDuration(seconds * 1000, "mm:ss");
+
+        double topBidPrice = bidParty.getBestBidPrice();
+        double playerBidPrice = bidParty.getBidPrice(player);
+
         player.sendMessage(ChatColor.ITALIC + "" + ChatColor.BLUE + "Temps restant pour l'enchère : " + time);
-        player.sendMessage("Le plus haut prix enchéri : " + bidParty.getBestBidPrice());
+        player.sendMessage(ChatColor.ITALIC + "" + ChatColor.DARK_GREEN + "Meilleur prix d'enchère : "
+                + String.format("%.2f", bidParty.getBestBidPrice()));
+        if (topBidPrice > 0) {
+            player.sendMessage(ChatColor.ITALIC + "" + ChatColor.DARK_GREEN + "Meilleur enchéreur : "
+                    + bidParty.getBestBidder().getDisplayName());
+        }
+        player.sendMessage(ChatColor.ITALIC + "" + ChatColor.GREEN + "Votre prix d'enchère actuel : "
+                + String.format("%.2f", playerBidPrice));
 
         return true;
     }

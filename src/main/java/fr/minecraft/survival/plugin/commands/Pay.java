@@ -1,7 +1,5 @@
 package fr.minecraft.survival.plugin.commands;
 
-import fr.minecraft.survival.plugin.main.PluginMain;
-import fr.minecraft.survival.plugin.utils.XML;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,12 +23,12 @@ public class Pay implements CommandExecutor {
             sender.sendMessage(ChatColor.DARK_RED + "Tu ne peux pas envoyer de l'argent à toi-même !");
 
         } else {
-            XML xml = new XML();
-            int pts;
+            double pts;
             try {
-                pts = Integer.parseInt(args[1]);
+                pts = Double.parseDouble(args[1]);
                 if (pts < 2) {
-                    sender.sendMessage(ChatColor.DARK_RED + "Vous ne pouvez pas envoyer un montant inférieur à 2 points !");
+                    sender.sendMessage(
+                            ChatColor.DARK_RED + "Vous ne pouvez pas envoyer un montant inférieur à 2 points !");
                     return false;
                 }
             } catch (NumberFormatException e) {
@@ -38,17 +36,17 @@ public class Pay implements CommandExecutor {
                 return false;
             }
 
-            String senderId = sender.getUniqueId().toString();
-            String receiverId = receiver.getUniqueId().toString();
-
-            int senderPoints = Integer.parseInt(xml.get_points(senderId));
+            double senderPoints = Points.getPoints(sender);
             if (senderPoints >= pts) {
                 try {
-                    xml.updatePoints(senderId, senderPoints - pts + "");
-                    xml.updatePoints(receiverId, Integer.parseInt(xml.get_points(receiverId)) + pts + "");
+                    Points.setPoints(sender, senderPoints - pts);
+                    Points.setPoints(receiver, Points.getPoints(receiver) + pts);
+                    String roundedPts = String.format("%.2f", pts);
 
-                    sender.sendMessage(ChatColor.GREEN + "" + pts + " points ont bien été envoyés chez " + receiver.getDisplayName() + " !");
-                    receiver.sendMessage(ChatColor.AQUA + "Vous avez reçu " + pts + " points de la part de " + sender.getDisplayName() + " !");
+                    sender.sendMessage(ChatColor.GREEN + "" + roundedPts + " points ont bien été envoyés chez "
+                            + receiver.getDisplayName() + " !");
+                    receiver.sendMessage(ChatColor.AQUA + "Vous avez reçu " + roundedPts + " points de la part de "
+                            + sender.getDisplayName() + " !");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

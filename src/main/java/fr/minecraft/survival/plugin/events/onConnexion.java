@@ -1,7 +1,7 @@
 package fr.minecraft.survival.plugin.events;
 
 import fr.minecraft.survival.plugin.main.PluginMain;
-import fr.minecraft.survival.plugin.utils.*;
+import fr.minecraft.survival.plugin.commands.Points;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -34,7 +34,7 @@ public class onConnexion implements Listener {
             PluginMain.getInstance().saveConfig();
         } else {
             event.getPlayer().sendMessage(ChatColor.AQUA + "Vous avez "
-                    + config.getDouble("points." + event.getPlayer().getDisplayName()) + " points.");
+                    + String.format("%.2f", Points.getPoints(event.getPlayer())));
         }
 
     }

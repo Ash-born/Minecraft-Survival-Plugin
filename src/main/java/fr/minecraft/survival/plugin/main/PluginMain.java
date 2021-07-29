@@ -33,6 +33,7 @@ public class PluginMain extends JavaPlugin {
         plManager.registerEvents(new onBlockMined(), this);
         plManager.registerEvents(new onPlayerConnect(), this);
         plManager.registerEvents(new onPlayerLeft(), this);
+        plManager.registerEvents(new onPlayerMove(), this);
 
         getCommand("points").setExecutor(new Points());
         getCommand("sethome").setExecutor(new SetHome());

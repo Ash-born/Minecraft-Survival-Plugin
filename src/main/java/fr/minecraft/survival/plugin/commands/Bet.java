@@ -34,20 +34,24 @@ public class Bet implements CommandExecutor {
         if (args.length >= 1) {
 
             double playerBidPrice = bidParty.getBidPrice(player);
+            double topBidPrice = bidParty.getBestBidPrice();
             double playerPoints = Points.getPoints(player);
 
-            if (bidPrice > playerBidPrice && bidPrice <= playerPoints) {
+            if (bidPrice > playerBidPrice && bidPrice <= playerPoints && bidPrice > topBidPrice) {
                 double pointsUpdate = playerPoints + playerBidPrice - bidPrice;
                 bidParty.setBid(player, bidPrice);
 
                 Points.setPoints(player, pointsUpdate);
                 player.sendMessage(ChatColor.GREEN + "Votre demande a bien été enregistré !");
             } else if (bidPrice > playerPoints) {
-                player.sendMessage(
-                        ChatColor.RED + "" + ChatColor.ITALIC + "Vous n'avez pas assez d'argent pour enchérir !");
+                player.sendMessage(ChatColor.RED + "" + ChatColor.ITALIC
+                        + "Erreur ! Vous n'avez pas assez d'argent pour enchérir !");
+            } else if (bidPrice <= playerBidPrice) {
+                player.sendMessage(ChatColor.RED + "" + ChatColor.ITALIC
+                        + "Erreur ! Vous devez entrer un montant supérieur à votre dernière demande !");
             } else {
                 player.sendMessage(ChatColor.RED + "" + ChatColor.ITALIC
-                        + "Votre montant est inférieur à votre dernière demande !");
+                        + "Erreur ! Vous devez entrer un montant supérieur au meilleur prix d'enchère actuel !");
             }
         }
 

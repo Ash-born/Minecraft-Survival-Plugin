@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import fr.minecraft.survival.plugin.utils.Bid;
 import fr.minecraft.survival.plugin.utils.BidParty;
 import net.md_5.bungee.api.ChatColor;
@@ -26,19 +27,22 @@ public class Auction implements CommandExecutor {
 
         int seconds = bidParty.getTimeLeft();
         String time = DurationFormatUtils.formatDuration(seconds * 1000, "mm:ss");
+        ItemStack bidItem = bidParty.getBidItem();
+        String bidItemName = bidItem.getItemMeta().hasDisplayName() ? bidItem.getItemMeta().getDisplayName()
+                : bidItem.getType().name().replace("_", " ");
 
         double topBidPrice = bidParty.getBestBidPrice();
         double playerBidPrice = bidParty.getBidPrice(player);
 
-        player.sendMessage(ChatColor.ITALIC + "" + ChatColor.BLUE + "Temps restant pour l'enchère : " + time);
-        player.sendMessage(ChatColor.ITALIC + "" + ChatColor.DARK_GREEN + "Meilleur prix d'enchère : "
+        player.sendMessage(ChatColor.BLUE + "Temps restant pour l'enchère : " + time);
+        player.sendMessage(ChatColor.GOLD + "L'item en enchère : " + bidItemName);
+        player.sendMessage(ChatColor.DARK_GREEN + "Meilleur prix d'enchère : "
                 + String.format("%.2f", bidParty.getBestBidPrice()));
         if (topBidPrice > 0) {
-            player.sendMessage(ChatColor.ITALIC + "" + ChatColor.DARK_GREEN + "Meilleur enchéreur : "
-                    + bidParty.getBestBidder().getDisplayName());
+            player.sendMessage(
+                    ChatColor.DARK_GREEN + "Meilleur enchéreur : " + bidParty.getBestBidder().getDisplayName());
         }
-        player.sendMessage(ChatColor.ITALIC + "" + ChatColor.GREEN + "Votre prix d'enchère actuel : "
-                + String.format("%.2f", playerBidPrice));
+        player.sendMessage(ChatColor.GREEN + "Votre prix d'enchère actuel : " + String.format("%.2f", playerBidPrice));
 
         return true;
     }

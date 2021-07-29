@@ -1,7 +1,6 @@
 package fr.minecraft.survival.plugin.events;
 
 import fr.minecraft.survival.plugin.commands.Vanish;
-import fr.minecraft.survival.plugin.main.PluginMain;
 import fr.minecraft.survival.plugin.utils.Bid;
 import fr.minecraft.survival.plugin.utils.BidParty;
 import java.util.UUID;
@@ -26,7 +25,6 @@ public class onPlayerConnect implements Listener {
         UUID playerId = player.getUniqueId();
         Inventory playerInv = player.getInventory();
         if (bidParty.offlineWinners.containsKey(playerId)) {
-            PluginMain.getInstance().getLogger().info("WHY CA MARCHE PAS");
             ItemStack bidItem = bidParty.offlineWinners.get(playerId);
             bidParty.offlineWinners.remove(playerId);
             playerInv.addItem(bidItem);

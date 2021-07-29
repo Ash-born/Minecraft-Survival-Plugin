@@ -34,7 +34,6 @@ public class BidParty {
     public void endBid() {
         Player bestBidder = getBestBidder();
         if (bestBidder != null && !bestBidder.isOnline()) {
-            PluginMain.getInstance().getLogger().info("putting");
             offlineWinners.put(bestBidder.getUniqueId(), bidItem);
         }
 

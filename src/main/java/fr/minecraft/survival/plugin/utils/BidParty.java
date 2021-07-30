@@ -1,21 +1,28 @@
 package fr.minecraft.survival.plugin.utils;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import fr.minecraft.survival.plugin.commands.Points;
+import fr.minecraft.survival.plugin.main.PluginMain;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public class BidParty {
     ItemStack bidItem;
-    HashMap<Player, Double> bidders;
     BidTimer timer;
+    HashMap<Player, Double> bidders;
+    public HashMap<UUID, ItemStack> offlineWinners;
+    FileConfiguration config = PluginMain.getInstance().getConfig();
+
     public boolean hasFinished = true;
 
     public BidParty() {
         bidders = new HashMap<>();
+        offlineWinners = new HashMap<>();
     }
 
     public void startBid(ItemStack item, BidTimer timer) {
@@ -25,6 +32,12 @@ public class BidParty {
     }
 
     public void endBid() {
+        Player bestBidder = getBestBidder();
+        if (bestBidder != null && !bestBidder.isOnline()) {
+            PluginMain.getInstance().getLogger().info("putting");
+            offlineWinners.put(bestBidder.getUniqueId(), bidItem);
+        }
+
         hasFinished = true;
         bidders.clear();
         bidItem = null;

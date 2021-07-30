@@ -6,11 +6,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class onPlayerLeft implements Listener {
-        Vanish vanish = new Vanish();
+    Vanish vanish = new Vanish();
+
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent e) {
         vanish.vanished.remove(e.getPlayer());
     }
-
 
 }

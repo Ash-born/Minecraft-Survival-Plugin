@@ -6,30 +6,48 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import fr.minecraft.survival.plugin.main.PluginMain;
 
 public class Bid {
     static BidParty currentBidParty = new BidParty();
+    public boolean bidTaskHasStarted = false;
+    static Bid instance;
 
     Random random;
     Server server = Bukkit.getServer();
-    BukkitScheduler scheduler = server.getScheduler();
+    public BukkitScheduler scheduler = server.getScheduler();
     BidTimer bidTimer;
 
     // BID_TIME in minutes
     int BID_TIME = 5;
 
     // BID_DELAY_TIME in minutes
-    int BID_DELAY_TIME = 60;
+    public int BID_DELAY_TIME = 60;
 
     // Minimum players required to start auction
-    int MIN_PLAYERS = 2;
+    public int MIN_PLAYERS = 2;
 
     public Bid() {
         random = new Random();
-        scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), this::startBidParty, 0, BID_DELAY_TIME * 60 * 20);
+        instance = this;
+        startTask();
+    }
+
+    public void startTask() {
+        if (Bukkit.getOnlinePlayers().size() >= MIN_PLAYERS && !bidTaskHasStarted) {
+            scheduler.scheduleSyncRepeatingTask(PluginMain.getInstance(), () -> {
+                startBidParty();
+            }, 0, BID_DELAY_TIME * 60 * 20);
+            bidTaskHasStarted = true;
+        }
+    }
+
+    public static Bid getInstance() {
+        return instance;
     }
 
     public static BidParty getCurrentBidParty() {
@@ -37,9 +55,6 @@ public class Bid {
     }
 
     public void startBidParty() {
-        if (Bukkit.getOnlinePlayers().size() < MIN_PLAYERS)
-            return;
-
         // Every one second, we run this task
         if (bidTimer != null && !bidTimer.isCancelled()) {
             bidTimer.cancel();
@@ -67,7 +82,12 @@ public class Bid {
                         .broadcastMessage(ChatColor.AQUA + "Le joueur " + winner.getDisplayName()
                                 + " a gagné l'enchère !\nIl remporte donc l'item " + bidItemName + " au prix de "
                                 + price + " points !");
-                winner.getInventory().addItem(bidItem);
+                Inventory wInventory = winner.getInventory();
+                if (wInventory.firstEmpty() == -1) {
+                    winner.getWorld().dropItem(winner.getLocation(), bidItem);
+                } else {
+                    winner.getInventory().addItem(bidItem);
+                }
                 winner.sendMessage(
                         ChatColor.GREEN + "" + ChatColor.ITALIC + "Tu as remporté l'item " + bidItemName + " ! GG!");
                 currentBidParty.giveMoneyBack();

@@ -17,9 +17,9 @@ public class upgradeClass implements CommandExecutor {
         double points = config.getDouble("points." + target.getDisplayName());
         int classlevel = config.getInt(    classe +"." + target.getDisplayName() + ".level");
         if(classlevel == 1 ) {
-            if (points >= 500) {
+            if (points >= 200) {
 
-                config.set("points." + target.getDisplayName(), points-500.0 );
+                config.set("points." + target.getDisplayName(), points-200 );
                 config.set(classe +"." + target.getDisplayName() + ".level",2);
                 classlevel = config.getInt(    classe +"." + target.getDisplayName() + ".level");
                 target.sendMessage(ChatColor.AQUA + "Votre classe "+ classe + " est devenu desormais de lvl "+ classlevel);
@@ -29,9 +29,9 @@ public class upgradeClass implements CommandExecutor {
             }
         }
         if(classlevel == 2 ) {
-            if (points >= 2500) {
+            if (points >= 500) {
 
-                config.set("points." + target.getDisplayName(), points-2500 );
+                config.set("points." + target.getDisplayName(), points-500 );
                 config.set(classe +"." + target.getDisplayName() + ".level",3);
                 classlevel = config.getInt(    classe +"." + target.getDisplayName() + ".level");
                 target.sendMessage(ChatColor.AQUA + "Votre classe "+ classe + " est devenu desormais de lvl "+ classlevel);
@@ -41,9 +41,9 @@ public class upgradeClass implements CommandExecutor {
             }
         }
         if(classlevel == 3 ) {
-            if (points >= 6500) {
+            if (points >= 850) {
 
-                config.set("points." + target.getDisplayName(), points-6500 );
+                config.set("points." + target.getDisplayName(), points-850 );
                 config.set(classe +"." + target.getDisplayName() + ".level",4);
                 classlevel = config.getInt(    classe +"." + target.getDisplayName() + ".level");
 
@@ -54,9 +54,9 @@ public class upgradeClass implements CommandExecutor {
             }
         }
         if(classlevel == 4 ) {
-            if (points >= 10500) {
+            if (points >= 1250) {
 
-                config.set("points." + target.getDisplayName(), points-10500 );
+                config.set("points." + target.getDisplayName(), points-1250 );
                 config.set(classe +"." + target.getDisplayName() + ".level",5);
                 classlevel = config.getInt(    classe +"." + target.getDisplayName() + ".level");
 

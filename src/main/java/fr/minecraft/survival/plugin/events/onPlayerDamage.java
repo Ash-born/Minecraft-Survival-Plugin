@@ -20,6 +20,7 @@ public class onPlayerDamage implements Listener {
             FileConfiguration config = PluginMain.getInstance().getConfig();
             Player p = (Player) event.getDamager();
             String classe = config.getString("classe." + p.getDisplayName());
+            if(classe == null ){ return;}
             int classlevel = config.getInt(    classe +"." + p.getDisplayName() + ".level");
             if(classe.equals("guerrier")){
                 if(p.getItemInHand().equals( new ItemStack(Material.DIAMOND_SWORD) )   || p.getItemInHand().equals( new ItemStack(Material.IRON_SWORD) ) ||   p.getItemInHand().equals( new ItemStack(Material.WOODEN_SWORD) ) ||  p.getItemInHand().equals( new ItemStack(Material.STONE_SWORD) ) ||  p.getItemInHand().equals( new ItemStack(Material.GOLDEN_SWORD) ) ) {

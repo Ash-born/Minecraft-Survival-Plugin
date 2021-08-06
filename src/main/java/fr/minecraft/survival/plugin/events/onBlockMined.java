@@ -1,6 +1,7 @@
 package fr.minecraft.survival.plugin.events;
 
 import fr.minecraft.survival.plugin.main.PluginMain;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -72,12 +73,23 @@ public class onBlockMined implements Listener {
             Player p =  event.getPlayer();
             String classe = config.getString("classe." + p.getDisplayName());
             int classlevel = config.getInt(    classe +"." + p.getDisplayName() + ".level");
-            if(classe.equals("mineur")){
-            int random = -2 * classlevel;
-            int randomnumber  = 1 + (int)(Math.random() * (((12-random) - 1) + 1));
-            if(randomnumber == 2){
-                p.getInventory().addItem(new ItemStack(material));
+            if(classe != null ){
+            if(classe.equals("mineur")) {
+                int random = 2 * classlevel;
+                int test = 10 - random;
+                int randomnumber = ( (int) (Math.random() * ( (test ) + 1) ));
+                if (randomnumber == 0) {
 
+                    p.sendMessage(ChatColor.GREEN + "Vous venez de doubler vos minerai ");
+                    if ( ! material.equals(Material.DIAMOND_ORE)) {
+
+
+                        p.getInventory().addItem(new ItemStack(material,1));
+                    }
+                    else{
+                        p.getInventory().addItem(new ItemStack(Material.DIAMOND,1));
+                    }
+                }
             }
 
 

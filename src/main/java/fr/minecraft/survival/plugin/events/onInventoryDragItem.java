@@ -20,6 +20,7 @@ public class onInventoryDragItem implements Listener {
         FileConfiguration config = PluginMain.getInstance().getConfig();
         Player p = (Player) e.getWhoClicked();
         String classe = config.getString("classe." + p.getDisplayName());
+        if (classe == null ) return;
         if( e.getInventory().getType() != InventoryType.CRAFTING|| !e.getInventorySlots().contains(40)) {
 
             return;

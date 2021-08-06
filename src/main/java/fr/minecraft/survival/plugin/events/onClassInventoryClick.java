@@ -27,15 +27,16 @@ public class onClassInventoryClick implements Listener {
         Player p = (Player) event.getWhoClicked();
         String classe = config.getString("classe." + p.getDisplayName());
         int classlevel = config.getInt(    classe +"." + p.getDisplayName() + ".level");
+        if(classe!=null){
+            if(classe.equals("guerrier")) {
 
-            if(classe.equals("guerrier")){
-
-                if(clicked.isSimilar(new ItemStack(Material.SHIELD))) {
+                if (clicked.isSimilar(new ItemStack(Material.SHIELD))) {
                     p.getInventory().setItem(40, new ItemStack(Material.AIR, 1));
 
                     event.setCancelled(true);
                     event.setResult(Event.Result.DENY);
                 }
+            }
 
             }
 
@@ -75,7 +76,7 @@ public class onClassInventoryClick implements Listener {
                 p.sendMessage(ChatColor.GREEN +"Vous etes désormais un Tank");
 
                 p.closeInventory();
-                p.setMaxHealth(22 + (classlevel* 2));
+                p.setMaxHealth(24 + (classlevel* 2));
                 PluginMain.getInstance().saveConfig();
             }
             if(clicked.isSimilar(Classes.Mineur)){
@@ -90,6 +91,12 @@ public class onClassInventoryClick implements Listener {
                 p.sendMessage(ChatColor.GREEN +"Vous etes désormais un Archer");
 
                 p.setMaxHealth(12 );
+                p.closeInventory();
+            }
+            if(clicked.isSimilar(Classes.Null)){
+                config.set("classe." + p.getDisplayName(),null);
+                p.sendMessage(ChatColor.GREEN +"Vous venez de reset votre classe");
+                p.setMaxHealth(10 );
                 p.closeInventory();
             }
 

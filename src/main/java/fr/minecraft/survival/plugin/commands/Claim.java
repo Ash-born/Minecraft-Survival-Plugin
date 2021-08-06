@@ -28,8 +28,9 @@ public class Claim implements CommandExecutor {
             else{
                 if(claimcree< maxClaim){
                     config.set("claimcree." + name , claimcree + 1);
-                    PluginMain.getInstance().saveConfig();
+
                     chunks.addChunk(ChunkId,name);
+                    PluginMain.getInstance().saveConfig();
                     p.sendMessage(ChatColor.GREEN + "The Chunk has been Claimed");
                     for (int i = 0; i < p.getWorld().getPlayers().size(); i++) {
                         p.getWorld().getPlayers().get(i).sendMessage(ChatColor.DARK_PURPLE + name  + " has claimed the Chunk with X : " + chunk.getX() + ". And Z :  " + chunk.getZ());

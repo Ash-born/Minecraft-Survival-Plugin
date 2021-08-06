@@ -21,6 +21,7 @@ public class onPlayerConnect implements Listener {
         for (Player p : vanish.vanished) {
             player.hidePlayer(p);
         }
+        
 
         BidParty bidParty = Bid.getCurrentBidParty();
         UUID playerId = player.getUniqueId();

@@ -34,6 +34,12 @@ public class PluginMain extends JavaPlugin {
         plManager.registerEvents(new onPlayerConnect(), this);
         plManager.registerEvents(new onPlayerLeft(), this);
         plManager.registerEvents(new onPlayerMove(), this);
+        plManager.registerEvents(new onMessage(), this);
+        plManager.registerEvents(new onClassInventoryClick(), this);
+        plManager.registerEvents(new onInventoryDragItem(), this);
+        plManager.registerEvents(new onSwapInventoryItem(), this);
+        plManager.registerEvents(new onPlayerDamage(), this);
+
 
         getCommand("points").setExecutor(new Points());
         getCommand("sethome").setExecutor(new SetHome());
@@ -49,6 +55,9 @@ public class PluginMain extends JavaPlugin {
         getCommand("unclaim").setExecutor(new Unclaim());
         getCommand("vanish").setExecutor(new Vanish());
         getCommand("freeze").setExecutor(new Freeze());
+        getCommand("classes").setExecutor(new Classes());
+        getCommand("currentclasse").setExecutor(new CurrentClasse());
+        getCommand("upgradeclasse").setExecutor(new upgradeClass());
 
         bid = new Bid();
     }
@@ -58,6 +67,7 @@ public class PluginMain extends JavaPlugin {
         getLogger().info("onDisable has been invoked!");
         bid = null;
         saveConfig();
+
     }
 
 }

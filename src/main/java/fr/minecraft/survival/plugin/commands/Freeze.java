@@ -28,9 +28,14 @@ public class Freeze implements CommandExecutor {
                     if (frozenPlayers.containsKey(target)) {
                         frozenPlayers.remove(target);
                         p.sendMessage(ChatColor.GREEN + "Joueur n'est plus en freeze");
+                        target.sendMessage(ChatColor.YELLOW + p.getDisplayName() + "Vous a mis défreeze");
+                        PluginMain.frozenPlayers = frozenPlayers;
+
                     } else {
                         frozenPlayers.put(target, target.getLocation().clone());
                         p.sendMessage(ChatColor.GREEN + "Joueur mit en freeze avec succes");
+                        target.sendMessage(ChatColor.YELLOW + p.getDisplayName() + "Vous a mis en freeze");
+                        PluginMain.frozenPlayers = frozenPlayers;
                     }
                 }
             } else {

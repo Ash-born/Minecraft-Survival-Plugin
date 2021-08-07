@@ -15,12 +15,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class onPlayerConnect implements Listener {
-    Vanish vanish = new Vanish();
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        for (Player p : vanish.vanished) {
+        for (Player p : Vanish.vanished) {
             player.hidePlayer(p);
         }
         

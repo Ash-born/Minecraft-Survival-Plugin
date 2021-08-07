@@ -58,6 +58,7 @@ public class PluginMain extends JavaPlugin {
         getCommand("classes").setExecutor(new Classes());
         getCommand("currentclasse").setExecutor(new CurrentClasse());
         getCommand("upgradeclasse").setExecutor(new upgradeClass());
+        getCommand("list").setExecutor(new List());
 
         bid = new Bid();
     }

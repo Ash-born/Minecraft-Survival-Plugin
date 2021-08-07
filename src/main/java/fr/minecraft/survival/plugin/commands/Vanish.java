@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Vanish implements CommandExecutor {
 
-    public ArrayList<Player> vanished = new ArrayList<Player>();
+    public static ArrayList<Player> vanished = new ArrayList<Player>();
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
         if (!(sender instanceof Player)) {
@@ -30,7 +30,12 @@ public class Vanish implements CommandExecutor {
                         pl.hidePlayer(p);
                         pl.sendMessage(ChatColor.YELLOW  +  p.getDisplayName() + " left the game");
                     }
-                    p.setGameMode(GameMode.SPECTATOR);
+                    if (args.length >= 1) {
+                        p.setGameMode(GameMode.CREATIVE);
+                    } else {
+                        p.setGameMode(GameMode.SPECTATOR);
+                    }
+                    
                     vanished.add(p);
                     p.setAllowFlight(true);
                     p.sendMessage(ChatColor.GREEN + "Vous venez de vous mettre ne vanish");
@@ -41,9 +46,12 @@ public class Vanish implements CommandExecutor {
                         pl.showPlayer(p);
                         pl.sendMessage(ChatColor.YELLOW  +  p.getDisplayName() + " joined the game");
                     }
-                    p.setGameMode(GameMode.CREATIVE);
+                    if (args.length >= 1) {
+                        p.setGameMode(GameMode.SURVIVAL);
+                    } else {
+                        p.setGameMode(GameMode.CREATIVE);
+                    }
                     vanished.remove(p);
-                    p.setAllowFlight(false);
                     p.sendMessage(ChatColor.GREEN + "Vous n'etes plus en vanish");
 
                     return true;

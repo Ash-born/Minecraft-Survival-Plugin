@@ -58,7 +58,7 @@ public class Bid {
         if (Bukkit.getOnlinePlayers().size() < MIN_PLAYERS) {
             return;
         }
-        
+
         // Every one second, we run this task
         if (bidTimer != null && !bidTimer.isCancelled()) {
             bidTimer.cancel();

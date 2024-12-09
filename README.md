@@ -1,4 +1,4 @@
-# Minecraft Survival Plugin - Système de Classe DXp & Shop
+# Minecraft Survival Plugin - Système de Classe , Shop et d autre utilite
 
 ## Description
 Ce plugin **Minecraft Survival** permet d'ajouter un **système de classes ** (points d'expérience de classe) et un **shop** dans votre serveur Minecraft. Les joueurs peuvent choisir des classes avec des capacités spéciales, gagner des points d'expérience de classe en accomplissant des actions et utiliser un **shop** pour acheter des objets et des améliorations uniques. De plus, ce plugin ajoute des fonctionnalités de gestion de maisons, de commerce, d'enchères, et de gestion des chunks.
